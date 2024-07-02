@@ -27,7 +27,7 @@ const loginBtn = (event) => {
         if (data.token) {
           // Save the token to localStorage
           localStorage.setItem("authToken", data.token);
-          console.log("Token saved to localStorage:", data.token);
+        //   console.log("Token saved to localStorage:", data.token);
         }
         console.log("Signin Successful", data);
         alert("Signin successful!");
@@ -39,3 +39,5 @@ const loginBtn = (event) => {
         alert("Signin failed: " + error.message);
       });
   };
+
+  

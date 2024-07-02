@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="signup.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-section">
+        <div class="content">
+          <img src="../client/img/favicon-32x32.png" alt="logg" class="logo" />
+          <h1>Get free universal tracking for all your packages.</h1>
+          <ul>
+            <li>Track and save unlimited packages</li>
+            <li>Receive or send notifications</li>
+            <li>Identify package delivery exceptions</li>
+            <li>Improve the delivery success rate of your packages</li>
+          </ul>
+        </div>
+      </div>
+
+      <!--Right section-->
+      <div class="right-section">
+        <div class="form-container">
+          <h2>Get started!</h2>
+          <p>Already have an account? <a href="../client/login.html">Log in</a></p>
+          <button class="google">
+            Continue with Google</button>
+          <p class="or">or</p>
+          <form action="#">
+            <input type="text" placeholder="First name" name="firstName" id="fName" required />
+            <input type="text" placeholder="Last name" name="lastName" id="lName" required />
+            <input type="email" placeholder="Email" name="email" id="email" required />
+            <input type="password" placeholder="Password" name="password" id="password" required />
+            <button onclick="signupBtn(event)" type="submit" class="signup-button">Sign up</button>
+          </form>
+          <p>
+            Need solutions for your business?
+            <a href="#">Sign up as a business</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <script src="signup.js"></script>
+  </body>
+</html>

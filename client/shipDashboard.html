@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="shipDashboard.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-primary border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading text-white">
+                <img src="../client/img/logo24.svg" alt="logo" width="100">
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="./dasboard.html" class="list-group-item list-group-item-action bg-primary text-white">Home</a>
+                <a href="./shipDashboard.html" class="list-group-item list-group-item-action bg-primary text-white">Shipment Dashboard</a>
+                <a href="#" class="list-group-item list-group-item-action bg-primary text-white">IOSS & VAT</a>
+                <a href="#" class="list-group-item list-group-item-action bg-primary text-white">Subscriptions & Billing</a>
+                <a href="#" class="list-group-item list-group-item-action bg-primary text-white">Tracking API keys</a>
+                <a href="#" class="list-group-item list-group-item-action bg-primary text-white">Tracking Webhook</a>
+                <a href="#" class="list-group-item list-group-item-action bg-primary text-white">Upgrade Plan</a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <button class="btn btn-primary" id="menu-toggle"> Menu</button>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">API Documentation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Support</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">IL</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid">
+                <h1 class="mt-4">Track your parcels with our<br> Shipment Dashboard</h1>
+                <p>Our Shipment Tracking Dashboard helps you <br> stay up-to-date with your parcels' journey from <br> start to finish.</p>
+                <button class="btn btn-primary">Get started</button>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    
+    <script>
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+
+    
+</body>
+</html>

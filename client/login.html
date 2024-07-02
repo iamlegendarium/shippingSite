@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="login.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo">
+        <img src="../client/img/logo.svg" alt="logo" />
+      </div>
+      <h1>Welcome back</h1>
+      <p>
+        New on Ship24? <a href="../client/signup.html">Create an account</a>
+      </p>
+      <form>
+        <div class="input-text">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="Email" />
+        </div>
+        <div class="input-text">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Password" />
+          <a href="#" class="forgotPass">Forgot password?</a>
+        </div>
+        <button type="submit" class="loginButt">Login</button>
+        <div class="or">or</div>
+        <button type="button" class="google" onclick="loginBtn(event)">
+          <img src="../client/img/goggle.png" alt="Google" /> Continue with Google
+        </button>
+      </form>
+    <script src="login.js"></script>
+  </body>
+</html>

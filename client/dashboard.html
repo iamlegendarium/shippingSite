@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="dashbboard.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+</head>
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-primary border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading text-white"> 
+                <img src="../client/img/logo24.svg" alt="Logo" width="100"> 
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="../client/dasboard.html" class="list-group-item list-group-item-action bg-primary text-white">Home</a>
+                <a href="../client/shipDashboard.html" class="list-group-item list-group-item-action bg-primary text-white">Shipment Dashboard</a>
+                <a href="#" class="list-group-item list-group-item-action bg-primary text-white">IOSS & VAT</a>
+                <a href="#" class="list-group-item list-group-item-action bg-primary text-white">Subscriptions & Billing</a>
+                <a href="#" class="list-group-item list-group-item-action bg-primary text-white">Tracking API keys</a>
+                <a href="#" class="list-group-item list-group-item-action bg-primary text-white">Tracking Webhook</a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <button class="btn btn-primary" id="menu-toggle">Menu</button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">API Documentation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Support</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid">
+                <h1 class="mt-4">Home</h1>
+                <div class="card mt-4">
+                    <div class="card-header">
+                        Getting started
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Start with our IOSS solution: <a href="#">your registration</a></li>
+                            <li>Track your shipments: <a href="#">Shipment Tracking Dashboard</a></li>
+                            <li>Start with our Tracking API: <a href="#">Get your API key</a></li>
+                            <li>Remove limitations: <a href="#">Explore plans & pricing</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Help center</h5>
+                                <p class="card-text">Check our documentation to get all the information you need.</p>
+                                <a href="#" class="btn btn-primary">Explore documentation</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Support</h5>
+                                <p class="card-text">Need help? Submit a request to our support team and we'll get back to you shortly.</p>
+                                <a href="#" class="btn btn-primary">Contact support</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Contact sales</h5>
+                                <p class="card-text">Talk with an expert to see how we can provide the best solutions for shipment tracking.</p>
+                                <a href="#" class="btn btn-primary">Contact sales</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+        <script>
+            $("#menu-toggle").click(function(e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+        </script>
+
+    
+</body>
+</html>

@@ -1,0 +1,173 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  header {
+    background: linear-gradient(
+      to right,
+      rgb(253, 219, 145),
+      rgb(255, 181, 71) 99%
+    );
+    padding: 20px 0;
+    position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+  }
+  
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logo img {
+    max-height: 50px;
+  }
+  
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+  }
+  
+  nav ul li {
+    display: inline;
+  }
+  
+  nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .links .signUp {
+    background-color: #6c63ff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
+  
+  .links .signUp:hover {
+    background-color: #574bd1;
+  }
+  
+  /* extra styling for the nav bar */
+  nav ul li a:hover {
+    color: #6c63ff;
+  }
+  
+  .firstSection {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(
+          to right,
+          rgb(253, 219, 145),
+          rgb(255, 181, 71) 99%
+        );;
+      padding: 50px 20px;
+      position: relative;
+  }
+  
+  .firstSection .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+  }
+  
+  .content {
+      max-width: 600px;
+  }
+  
+  .firstSection h1 {
+      font-size: 2.5em;
+      color: #1A237E;
+      margin-bottom: 20px;
+  }
+  
+  .firstSection p {
+      font-size: 1.2em;
+      color: #333;
+      margin-bottom: 20px;
+  }
+  
+  .track {
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .track input {
+      flex: 1;
+      padding: 10px 20px;
+      border: none;
+      outline: none;
+      font-size: 1em;
+      border-radius: 25px 0 0 25px;
+  }
+  
+  .track button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #1A237E;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0 25px 25px 0;
+  }
+  
+  .track button img {
+      width: 20px;
+      height: 20px;
+  }
+  
+  .fine-girl img {
+      max-width: 1000px;
+      height: 100%;
+      margin-top: 70px;
+      border-radius: 25px;
+      position: relative;
+      top: 55px;
+      
+  }
+  .secondSection {
+      text-align: center;
+      margin-top: 55px;
+  }
+  
+  .text h2 {
+      
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      font-size: x-large;
+  }
+  
+  .text p {
+      font-size: medium;
+  }

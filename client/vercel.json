@@ -1,7 +1,7 @@
 {
   "rewrites": [
-    { "source": "/register", "destination": "../../client/signup.html" },
-    { "source": "/register", "destination": "../../client/login.html" },
-    { "source": "/dashboard", "destination": "../../client/dashboard.html" }
+    { "source": "/register", "destination": "/client/signup.html" },
+    { "source": "/login", "destination": "/client/login.html" },
+    { "source": "/dashboard", "destination": "/client/dashboard.html" }
   ]
 }

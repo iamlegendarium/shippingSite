@@ -15,8 +15,8 @@ app.use(express.static(path.join("../client")))
 app.use(cors())
 app.use("/", router);
 
-// Serve the default HTML file for the root URL
-app.get("/", (req, res) => {
+// Catch-all route to serve index.html for any other route
+app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/index.html"));
 });
 

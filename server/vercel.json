@@ -10,9 +10,6 @@
     {
       "src": "/(.*)",
       "dest": "/index.js"
-    },
-    { "source": "/register", "destination": "/client/signup.html" },
-    { "source": "/login", "destination": "/client/login.html" },
-    { "source": "/dashboard", "destination": "/client/dashboard.html" }
+    }
   ]
 }

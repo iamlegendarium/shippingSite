@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="login.css" />
+    
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
   </head>
   <body>
     <div class="container">
@@ -12,6 +17,11 @@
         <img src="../client/img/logo.svg" alt="logo" />
       </div>
       <h1>Welcome back</h1>
+      <div class="animate__animated animate__shakeX animate__repeat-2	2 alert alert-danger text-center fs-6 p-2" style="display: none;"
+          id="showErr">Invalid credentials</div>
+      <p>
+        <div class="animate__animated animate__shakeX animate__infinite	infinite alert alert-danger text-center fs-6 p-2" style="display: none;"
+          id="showError">User not found</div>
       <p>
         New on Ship24? <a href="../client/signup.html">Create an account</a>
       </p>

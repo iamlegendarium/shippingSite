@@ -36,7 +36,7 @@ const userRegistration = async (req, res) => {
       isVerified: false,
     });
 
-    // console.log("Registration successful", user);
+    console.log("Registration successful", user);
 
     const verificationLink = `http://localhost:3000/verify?token=${verificationToken}`;
 
@@ -45,7 +45,11 @@ const userRegistration = async (req, res) => {
     //   message: "Registration successful, and Verification link send",
     //   user,
     // });
-    res.redirect("/login");
+    // res.redirect("/login");
+    res.status(200).json({
+      message: "Registration successful, and Verification link sent",
+      user,
+    });
 
   } catch (error) {
     console.log(error);
@@ -120,24 +124,24 @@ const login = async (req, res) => {
     const user = await User.findOne({ where: { email: email } });
     if (!user) {
       console.log("User not found");
-    //   return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     const verifyPassword = bcryptjs.compareSync(password, user.password);
     if (!verifyPassword) {
       console.log("Wrong password");
-    //   return res.status(401).json({ message: "Wrong password" });
+      return res.status(401).json({ message: "Wrong password" });
     }
 
     if (!user.isVerified) {
       console.log("User not verified");
-    //   return res.status(401).json({ message: "User not verified" });
+      return res.status(401).json({ message: "User not verified" });
     }
 
 
     const token = jwt.sign({ email: email }, secret);
     // res.json({ token });
-    res.redirect("/login");
+    res.status(200).json({ message: "User signin success" });
 
   } catch (error) {
     console.log(error);

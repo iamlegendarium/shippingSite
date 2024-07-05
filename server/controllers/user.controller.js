@@ -9,6 +9,11 @@ const nodemailer = require("nodemailer");
 
 const secret = process.env.SECRET;
 
+const index = (req,res) =>{
+  res.sendFile(path.join(__dirname, "../../client/index.html"));
+
+}
+
 const generateVerificationToken = (email) => {
   const payload = { email };
   const expiryTime = { expiresIn: "5m" };
@@ -158,5 +163,6 @@ module.exports = {
   login,
   getUserRegistration,
   getLogin,
-  getDashboard
+  getDashboard,
+  index
 };

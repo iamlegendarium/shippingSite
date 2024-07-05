@@ -26,3 +26,5 @@ sequelize
   .catch((error) => {
     console.log(`Server is not running on port ${PORT}`);
   });
+
+  module.exports = app

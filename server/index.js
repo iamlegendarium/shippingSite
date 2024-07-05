@@ -17,7 +17,7 @@ app.use("/", router);
 
 // Catch-all route to serve index.html for any other route
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/index.html"));
+  res.sendFile(path.join(__dirname, "client", "index.html"));
 });
 
 sequelize

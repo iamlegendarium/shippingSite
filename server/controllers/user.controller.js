@@ -17,7 +17,7 @@ const generateVerificationToken = (email) => {
 };
 
 const getUserRegistration = (req, res) => {
-  res.sendFile(path.join(__dirname, "../../client/signup.html"));
+  res.sendFile(path.join(__dirname, "../client/signup.html"));
 };
 
 const userRegistration = async (req, res) => {
@@ -115,7 +115,7 @@ const verifyUserEmail = async (req, res) => {
 };
 
 const getLogin = (req, res) => {
-  res.sendFile(path.join(__dirname, "../../client/login.html"));
+  res.sendFile(path.join(__dirname, "../client/login.html"));
 };
 
 const login = async (req, res) => {
@@ -149,7 +149,7 @@ const login = async (req, res) => {
 };
 
 const getDashboard = (req,res) =>{
-    res.sendFile(path.join(__dirname, "../../client/dashboard.html"))
+    res.sendFile(path.join(__dirname, "../client/dashboard.html"))
 }
 
 module.exports = {

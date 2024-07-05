@@ -20,6 +20,11 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/index.html"));
 });
 
+// Catch-all route for client-side routing
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/index.html'));
+});
+
 sequelize
   .sync()
   .then(() => {

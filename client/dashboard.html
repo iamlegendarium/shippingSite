@@ -3,25 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="http://127.0.0.1:5500/client/dashboard.css">
+    <title>Dashboard</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #wrapper {
+            display: flex;
+            align-items: stretch;
+        }
+
+        #sidebar-wrapper {
+            min-height: 100vh;
+            width: 250px;
+            margin-left: -250px;
+            transition: margin 0.25s ease-out;
+        }
+
+        #sidebar-wrapper .sidebar-heading {
+            padding: 0.875rem 1.25rem;
+            font-size: 1.2rem;
+        }
+
+        #sidebar-wrapper .list-group {
+            width: 100%;
+        }
+
+        #page-content-wrapper {
+            width: 100%;
+            padding: 20px;
+        }
+
+        #wrapper.toggled #sidebar-wrapper {
+            margin-left: 0;
+        }
+
+        .card {
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .navbar-nav .nav-link {
+            color: #333;
+        }
+
+        .navbar .navbar-nav .nav-link:hover {
+            color: #007bff;
+        }
+
+        @media (max-width: 768px) {
+            #sidebar-wrapper {
+                width: 100%;
+            }
+
+            #wrapper.toggled #sidebar-wrapper {
+                margin-left: 0;
+            }
+
+            #page-content-wrapper {
+                padding: 10px;
+            }
+
+            .card-body {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .card-text {
+                font-size: 0.9rem;
+            }
+
+            .navbar .navbar-nav .nav-link {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
         <div class="bg-primary border-right" id="sidebar-wrapper">
-            <div class="sidebar-heading text-white"> 
-                <img src="../client/img/logo24.svg" alt="Logo" width="100"> 
+            <div class="sidebar-heading text-white text-center py-4">
+                <img src="./img/logo24.svg" alt="Logo" class="img-fluid">
             </div>
             <div class="list-group list-group-flush">
-                <a href="../client/dasboard.html" class="list-group-item list-group-item-action bg-primary text-white">Home</a>
-                <a href="../client/shipDashboard.html" class="list-group-item list-group-item-action bg-primary text-white">Shipment Dashboard</a>
-                <a href="#" class="list-group-item list-group-item-action bg-primary text-white">IOSS & VAT</a>
-                <a href="#" class="list-group-item list-group-item-action bg-primary text-white">Subscriptions & Billing</a>
-                <a href="#" class="list-group-item list-group-item-action bg-primary text-white">Tracking API keys</a>
-                <a href="#" class="list-group-item list-group-item-action bg-primary text-white">Tracking Webhook</a>
+                <a href="./dashboard.html" class="list-group-item list-group-item-action bg-primary text-white">Home</a>
+                <a href="./shipDashboard.html" class="list-group-item list-group-item-action bg-primary text-white">Shipment Dashboard</a>
+                <a href="#" class="list-group-item list-group-item-action bg-primary text-white">Tracking History</a>
+                <a href="#" class="list-group-item list-group-item-action bg-primary text-white">Transaction History</a>
+                <a href="#" class="list-group-item list-group-item-action bg-primary text-white">Settings</a>
+                <a href="#" class="list-group-item list-group-item-action bg-primary text-white">Log Out</a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -33,17 +118,11 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">API Documentation</a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Support</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"></a>
+                            <a class="nav-link" href="#">BP</a>
                         </li>
                     </ul>
                 </div>
@@ -57,16 +136,14 @@
                     </div>
                     <div class="card-body">
                         <ul>
-                            <li>Start with our IOSS solution: <a href="#">your registration</a></li>
                             <li>Track your shipments: <a href="#">Shipment Tracking Dashboard</a></li>
-                            <!-- <li>Start with our Tracking API: <a href="#">Get your API key</a></li> -->
                             <li>Remove limitations: <a href="#">Explore plans & pricing</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="row mt-4">
-                    <div class="col-md-4">
-                        <div class="card">
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
                             <div class="card-body">
                                 <h5 class="card-title">Help center</h5>
                                 <p class="card-text">Check our documentation to get all the information you need.</p>
@@ -74,8 +151,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card">
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
                             <div class="card-body">
                                 <h5 class="card-title">Support</h5>
                                 <p class="card-text">Need help? Submit a request to our support team and we'll get back to you shortly.</p>
@@ -83,8 +160,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card">
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
                             <div class="card-body">
                                 <h5 class="card-title">Contact sales</h5>
                                 <p class="card-text">Talk with an expert to see how we can provide the best solutions for shipment tracking.</p>
@@ -95,22 +172,19 @@
                 </div>
             </div>
         </div>
-        
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-
-
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
-        <script>
-            $("#menu-toggle").click(function(e) {
-                e.preventDefault();
-                $("#wrapper").toggleClass("toggled");
-            });
-        </script>
-
-    
+    <script>
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
 </body>
 </html>

@@ -1,69 +1,65 @@
-/* <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-        }
-        .content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
-    </style> */
+/* Add the following CSS to your style.css or within a <style> tag in your HTML */
 
+html, body {
+    overflow-x: hidden;
+}
 
-    body {
-        overflow-x: hidden;
+.sidebar {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    padding-top: 20px;
+    background-color: #007bff; /* Blue background */
+}
+
+.sidebar .nav-link {
+    font-size: 1.1em;
+    color: white;
+}
+
+.sidebar .nav-link.active {
+    font-weight: bold;
+}
+
+.sidebar img {
+    max-width: 150px;
+}
+
+.table-responsive {
+    margin-top: 20px;
+}
+
+.table thead th {
+    font-weight: bold;
+}
+
+.pagination .page-link {
+    color: #333;
+}
+
+.pagination .page-link:hover {
+    color: #007bff;
+}
+
+@media (max-width: 767.98px) {
+    .sidebar {
+        display: none;
     }
-    
-    #wrapper {
-        display: flex;
-        align-items: stretch;
+    .sidebar-toggle {
+        display: block;
     }
-    
-    #sidebar-wrapper {
-        min-height: 100vh;
-        margin-left: -15rem;
-        transition: margin 0.25s ease-out;
+    .main-content {
+        padding-left: 0;
     }
-    
-    #sidebar-wrapper .sidebar-heading {
-        padding: 0.875rem 1.25rem;
-        font-size: 1.2rem;
+}
+
+@media (min-width: 768px) {
+    .sidebar-toggle {
+        display: none;
     }
-    
-    #sidebar-wrapper .list-group {
-        width: 15rem;
+    .main-content {
+        padding-left: 16.66666667%; /* Adjust based on sidebar width */
     }
-    
-    #page-content-wrapper {
-        min-width: 100vw;
-                
-    }
-    
-    #wrapper.toggled #sidebar-wrapper {
-        margin-left: 0;
-    }
-    
-    .navbar-nav .nav-item .nav-link {
-        padding: 0.75rem 1rem;
-    }
-    
-    .container-fluid {
-        padding-top: 1rem;
-        /* display: flex; */
-        /* justify-content: center;
-        align-items: center;
-        height: 100%; */
-        text-align: center;
-        margin-top: 300px;
-    
-    }
-    .container-fluid h1{
-        font-size: larger;
-    }
-    .container-fluid p{
-        font-size: medium;
-        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
-    }
-    
+}

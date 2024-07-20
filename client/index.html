@@ -1,179 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ship24</title>
-    <link rel="stylesheet" href="/style.css" />
-    <link
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
+    <title>Ship24</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    
+</head>
+<body>
     <header>
-      <div class="container">
-        <div class="logo">
-          <img src="/img/logo.svg" alt="Ship24" />
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="logo">
+                <img src="./img/logo.svg" alt="Ship24" class="img-fluid" />
+            </div>
+            <nav class="d-none d-md-block">
+                <ul class="list-unstyled d-flex mb-0">
+                    <li class="mr-3"><a href="#" class="nav-link">Ship from China</a></li>
+                    <li class="mr-3"><a href="#" class="nav-link">Couriers</a></li>
+                    <li class="mr-3"><a href="#" class="nav-link">Shops</a></li>
+                    <li class="mr-3"><a href="#" class="nav-link">Solutions</a></li>
+                    <li><a href="#" class="nav-link">Support</a></li>
+                </ul>
+            </nav>
+            <div class="links d-flex">
+                <a href="#" class="nav-link">English</a>
+                <a href="./login.html" class="nav-link">Login</a>
+                <a href="./signup.html" class="btn btn-primary signUp">Sign up</a>
+            </div>
         </div>
-        <nav>
-          <ul>
-            <li><a href="#">Ship from China</a></li>
-            <li><a href="#">Couriers</a></li>
-            <li><a href="#">Shops</a></li>
-            <li><a href="#">Solutions</a></li>
-            <li><a href="#">Support</a></li>
-          </ul>
-        </nav>
-        <div class="links">
-          <a href="#">English</a>
-
-          <a href="/login">Login</a>
-
-          <a href="/register" class="signup">Sign up</a>
-        </div>
-      </div>
     </header>
-    <!--First section -->
-    <section class="firstSection">
-      <div class="container">
-        <div class="content">
-          <h1>Track your parcel with Ship24</h1>
-          <p>
-            Universal parcel tracking to track your package from UPS, FedEx,
-            DHL, USPS, China Post and more!
-          </p>
-          <div class="track">
-            <input type="text" placeholder="Enter tracking numbers" id="track" />
-            <button onclick="trackBtn()" type="submit">
-              <img src="../client/img/arrowhead.png" alt="Search Icon" />
-            </button>
-          </div>
+
+    <!-- First section -->
+    <section class="firstSection py-5">
+        <div class="container d-flex flex-column flex-md-row align-items-center">
+            <div class="content text-center text-md-left mb-4 mb-md-0">
+                <h1>Track your parcel with Ship24</h1>
+                <p>
+                    Universal parcel tracking to track your package from UPS, FedEx, DHL, USPS, China Post and more!
+                </p>
+                <div class="track d-flex">
+                    <input type="text" placeholder="Enter tracking numbers" id="track" class="form-control mr-2" />
+                    <button onclick="trackBtn()" type="submit" class="btn btn-primary">
+                        <img src="./img/arrowhead.png" alt="Search Icon" />
+                    </button>
+                </div>
+            </div>
+            <div class="fine-girl">
+                <img src="./img/fine-gurl.png" alt="Hero Image" class="img-fluid" />
+            </div>
         </div>
-        <div class="fine-girl">
-          <img src="../client/img/fine-gurl.png" alt="Hero Image" />
-        </div>
-      </div>
     </section>
 
-    <!--Second section-->
-    <section class="secondSection">
-      <div class="text">
-        <h2>
-          Trusted by logistic companies, marketplaces and <br />
-          sellers across the world.
-        </h2>
-        <p>
-          Track more than 1524+ couriers logistics and marketplaces, including
-          UPS, DHL, FedEx, China Post,<br />
-          Alibaba, Ebay, Wish and more, all in one place.
-        </p>
-      </div>
-
-
-      
-    </section>
-    <!--Section for text pictures and icon-->
-    <section class="stats-section d-flex my-5 justify-content-center align-items-center text-center>
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-md-4">
-            <div class="stat-box">
-              <h2>1524+</h2>
-              <p>Connected couriers</p>
+    <!-- Second section -->
+    <section class="secondSection py-5 text-center">
+        <div class="container">
+            <div class="text">
+                <h2>
+                    Trusted by logistic companies, marketplaces and <br />
+                    sellers across the world.
+                </h2>
+                <p>
+                    Track more than 1524+ couriers logistics and marketplaces, including UPS, DHL, FedEx, China Post,
+                    <br />
+                    Alibaba, Ebay, Wish and more, all in one place.
+                </p>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="stat-box">
-              <h2>24/7</h2>
-              <p>Data quality monitoring</p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="stat-box">
-              <h2>300M+</h2>
-              <p>Shipments tracked</p>
-            </div>
-          </div>
         </div>
-      </div>
-
     </section>
 
-    <section class="main-content-section">
-      <div class="container">
-          <div class="row align-items-center">
-              <div class="col-md-6">
-                  <img src="../client/img/s24-shipment-tracking-dashboard-laptop.webp" alt="Dashboard" class="img-fluid">
-              </div>
-              <div class="col-md-6">
-                  <h2>Keep all your shipments organized and in view with our Shipment Dashboard</h2>
-                  <p>Whether you are tracking one or a million, the Shipment Tracking Dashboard is a powerful tracking tool that helps you stay up-to-date with the parcel's journey from start to finish. Choose to add multiple parcels with a single copy-paste or even add up to 100,000 parcels in a single CSV file.</p>
-                  <a href="#" class="btn btn-primary">Get started</a>
-              </div>
-          </div>
-      </div>
-  </section>
+    <!-- Section for text, pictures, and icon -->
+    <section class="stats-section py-5">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <div class="stat-box">
+                        <h2>1524+</h2>
+                        <p>Connected couriers</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-box">
+                        <h2>24/7</h2>
+                        <p>Data quality monitoring</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-box">
+                        <h2>300M+</h2>
+                        <p>Shipments tracked</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!--icons-->
+    <section class="main-content-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <img src="./img/s24-shipment-tracking-dashboard-laptop.webp" alt="Dashboard" class="img-fluid" />
+                </div>
+                <div class="col-md-6">
+                    <h2>Keep all your shipments organized and in view with our Shipment Dashboard</h2>
+                    <p>
+                        Whether you are tracking one or a million, the Shipment Tracking Dashboard is a powerful tracking tool that helps you stay up-to-date with the parcel's journey from start to finish. Choose to add multiple parcels with a single copy-paste or even add up to 100,000 parcels in a single CSV file.
+                    </p>
+                    <a href="#" class="btn btn-primary">Get started</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- IOSS Solutions Section -->
     <section class="container my-5">
-      <!-- <div class="text-center">
-          <h2 class="section-title">Complete IOSS solutions from Ship24</h2>
-          <p>Stress-free, EU-wide VAT solutions designed for eCommerce? No problem. For as little as 49 euros per month, you can guarantee your customers the fastest delivery turnaround without any hidden fees, all while simplifying your tax returns.</p>
-          <p>Interested? Use Ship24 to simplify <a href="#">IOSS registration</a> and compliance for the EU's new Import One Stop Shop (IOSS) scheme.</p>
-      </div> -->
-      <div class="row mt-5">
-          <div class="col-md-4">
-              <div class="feature-box">
-                  <div class="icon"><i class="fas fa-globe"></i></div>
-                  <h5>Complete IOSS solutions</h5>
-                  <p>Our IOSS solution will provide not only a valid IOSS number but also support all ongoing VAT-related administration regarding all goods sent to any EU country.</p>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <div class="feature-box">
+                    <div class="icon"><i class="fas fa-globe"></i></div>
+                    <h5>Complete IOSS solutions</h5>
+                    <p>Our IOSS solution will provide not only a valid IOSS number but also support all ongoing VAT-related administration regarding all goods sent to any EU country.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-box">
+                    <div class="icon"><i class="fas fa-bolt"></i></div>
+                    <h5>Seamless integration</h5>
+                    <p>Our API can easily integrate with your existing system to automate the tracking process, providing real-time updates and insights.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-box">
+                    <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                    <h5>Secure and reliable</h5>
+                    <p>Our system ensures that your data is protected and secure, providing reliable tracking information that you can trust.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-4">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-4">
+                  <img src="/img/logo.svg" alt="Ship24" class="img-fluid mb-3" />
+                  <ul class="list-unstyled">
+                      <li><a href="#" class="text-white">About Us</a></li>
+                      <li><a href="#" class="text-white">Privacy Policy</a></li>
+                      <li><a href="#" class="text-white">Contact Us</a></li>
+                      <li><a href="#" class="text-white">Help</a></li>
+                      <li><a href="#" class="text-white">Tracking API</a></li>
+                      <li><a href="#" class="text-white">Tracking Webhook</a></li>
+                      <li><a href="#" class="text-white">Tracking Dashboard</a></li>
+                      <li><a href="#" class="text-white">Import One-Stop Shop (IOSS)</a></li>
+                      <li><a href="#" class="text-white">Couriers</a></li>
+                      <li><a href="#" class="text-white">Shops</a></li>
+                  </ul>
+              </div>
+              <div class="col-md-4">
+                  <h5>Select your language</h5>
+                  <ul class="list-unstyled">
+                      <li><a href="#" class="text-white">English</a></li>
+                      <li><a href="#" class="text-white">Français</a></li>
+                      <li><a href="#" class="text-white">Русский</a></li>
+                      <li><a href="#" class="text-white">Español</a></li>
+                      <li><a href="#" class="text-white">Deutsch</a></li>
+                      <li><a href="#" class="text-white">Italiano</a></li>
+                      <li><a href="#" class="text-white">Türkçe</a></li>
+                      <li><a href="#" class="text-white">हिन्दी</a></li>
+                      <li><a href="#" class="text-white">한국어</a></li>
+                      <li><a href="#" class="text-white">Slovenski Jezik</a></li>
+                      <li><a href="#" class="text-white">Dansk</a></li>
+                      <li><a href="#" class="text-white">Nederlands</a></li>
+                      <li><a href="#" class="text-white">ไทย</a></li>
+                  </ul>
+              </div>
+              <div class="col-md-4 text-md-right">
+                  <ul class="list-unstyled">
+                      <li><a href="#" class="text-white">Lietuvių</a></li>
+                      <li><a href="#" class="text-white">Bahasa Indonesia</a></li>
+                      <li><a href="#" class="text-white">Português</a></li>
+                      <li><a href="#" class="text-white">Polski</a></li>
+                      <li><a href="#" class="text-white">Magyar</a></li>
+                      <li><a href="#" class="text-white">日本語</a></li>
+                      <li><a href="#" class="text-white">Hrvatski jezik</a></li>
+                      <li><a href="#" class="text-white">Svenska</a></li>
+                      <li><a href="#" class="text-white">Română</a></li>
+                      <li><a href="#" class="text-white">čeština</a></li>
+                      <li><a href="#" class="text-white">Tiếng Việt</a></li>
+                  </ul>
               </div>
           </div>
-          <div class="col-md-4">
-              <div class="feature-box">
-                  <div class="icon"><i class="fas fa-bolt"></i></div>
-                  <h5>Rapid IOSS integration</h5>
-                  <p>We specialize in streamlining IOSS business transitions to the new EU VAT rules so they can realize the full benefits of IOSS.</p>
-              </div>
-          </div>
-          <div class="col-md-4">
-              <div class="feature-box">
-                  <div class="icon"><i class="fas fa-shield-alt"></i></div>
-                  <h5>Full IOSS advantages</h5>
-                  <p>Ensure the best customer post-purchase experience for buyers in the EU with an IOSS intermediary that offers complete transparency and removes all hidden fees.</p>
-              </div>
-          </div>
-          <div class="col-md-4">
-              <div class="feature-box">
-                  <div class="icon"><i class="fas fa-check-circle"></i></div>
-                  <h5>Competitive advantage for EU sales</h5>
-                  <p>Cost-effective and rapid import turnaround that delivers a superior experience for your customers.</p>
-              </div>
-          </div>
-          <div class="col-md-4">
-              <div class="feature-box">
-                  <div class="icon"><i class="fas fa-university"></i></div>
-                  <h5>EU-wide tax representation</h5>
-                  <p>We offer complete VAT representation ensuring you fulfill all EU VAT compliance, including monthly filing support and submission checks by our expert team.</p>
-              </div>
-          </div>
-          <div class="col-md-4">
-              <div class="feature-box">
-                  <div class="icon"><i class="fas fa-headset"></i></div>
-                  <h5>Best-in-class support</h5>
-                  <p>As international shipping experts, we deliver the best-in-class universal tracking and shipping options and our comprehensive IOSS solutions mirror our commitment to optimizing our clients experience.</p>
-              </div>
+          <div class="text-center mt-4">
+              <p>&copy; 2024 Ship24. All rights reserved.</p>
           </div>
       </div>
-  </section>
+    </footer>
 
-
-
+   
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  </body>
+</body>
 </html>

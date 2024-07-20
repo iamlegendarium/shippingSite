@@ -1,6 +1,6 @@
 const signupBtn = (event) => {
   event.preventDefault();
-  let url = "http://localhost:4000/register";
+  let url = "https://shipping-site-psi.vercel.app/register";
 
   const firstName = document.getElementById("fName").value;
   const lastName = document.getElementById("lName").value;

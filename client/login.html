@@ -10,11 +10,121 @@
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
   />
+  <style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f1f4ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.logo img {
+    width: 50px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+.input-text {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-text label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.input-text input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.forgotPass {
+    font-size: 12px;
+    display: block;
+    margin-top: 5px;
+    text-align: right;
+}
+
+.loginButt {
+    background-color: #6200ea;
+    color: #fff;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.or {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.google {
+    background-color: #fff;
+    color: #000;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.google img {
+    width: 20px;
+    margin-right: 10px;
+}
+
+  </style>
   </head>
   <body>
     <div class="container">
       <div class="logo">
-        <img src="../client/img/logo.svg" alt="logo" />
+        <img src="./img/logo.svg" alt="logo" />
       </div>
       <h1>Welcome back</h1>
       <div class="animate__animated animate__shakeX animate__repeat-2	2 alert alert-danger text-center fs-6 p-2" style="display: none;"
@@ -23,7 +133,7 @@
         <div class="animate__animated animate__shakeX animate__infinite	infinite alert alert-danger text-center fs-6 p-2" style="display: none;"
           id="showError">User not found</div>
       <p>
-        New on Ship24? <a href="../client/signup.html">Create an account</a>
+        New on Ship24? <a href="./signup.html">Create an account</a>
       </p>
       <form>
         <div class="input-text">
@@ -38,7 +148,7 @@
         <button onclick="loginBtn(event)" type="button" class="loginButt">Login</button>
         <div class="or">or</div>
         <button  type="button" class="google" >
-          <img src="../client/img/goggle.png" alt="Google" /> Continue with Google
+          <img src="./img/goggle.png" alt="Google" /> Continue with Google
         </button>
       </form>
     <script src="login.js"></script>

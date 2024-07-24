@@ -1,36 +1,3 @@
-// const express = require("express");
-// const router = express.Router();
-
-// const {
-//   userRegistration,
-//   verifyUserEmail,
-//   login,
-//   getUserRegistration,
-//   getLogin,
-//   getDashboard,
-//   index,
-//   createParcel,
-//   trackParcel,
-//   updateParcelStatus,
-//   getShipments,
-//   authenticateToken
-// } = require("../controllers/user.controller");
-
-// router.get("/", index);
-// router.get("/register", getUserRegistration);
-// router.post("/register", userRegistration);
-// router.get("/verify", verifyUserEmail);
-// router.get("/login", getLogin);
-// router.post("/login", login);
-// router.get("/dashboard", getDashboard);
-// // router.get("/track", track);
-// router.post('/parcels', createParcel);
-// router.get('/parcels/:trackingNumber', trackParcel);
-// router.put('/parcels/:trackingNumber', updateParcelStatus);
-// router.get('/shipments', authenticateToken, getShipments);
-
-// module.exports = router;
-
 const express = require("express");
 const router = express.Router();
 

@@ -48,7 +48,7 @@ const userRegistration = async (req, res) => {
     console.log("Registration successful", user);
     // res.send(user)
 
-    const verificationLink = `http://localhost:3000/verify?token=${verificationToken}`;
+    const verificationLink = `https://shippingsite.onrender.com/verify?token=${verificationToken}`;
 
     sendVerificationEmail(email, verificationLink);
     res.status(200).json({

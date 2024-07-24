@@ -7,7 +7,7 @@ const path = require("path");
 const sequelize = require("./config/database");
 const router = require("./routes/user.route");
 
-let PORT = process.env.PORT || 3306;
+let PORT = process.env.PORT || 4000;
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../client")));
@@ -18,19 +18,17 @@ app.use("/", router);
 // app.get("/", (req, res) => {
 //   res.sendFile(path.join(__dirname, "../client/index.html"));
 // });
-
-sequelize
-  .sync()
-  .then(() => {
-    console.log("Database connected");
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  })
-  .catch((error) => {
-    console.error(`Server is not running on port ${PORT}`);
-    console.error("Database connection error:", error);
-  });
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  sequelize
+    .sync()
+    .then(() => {
+      console.log("Database connected");
+    })
+    .catch((error)=>{
+      console.error(`Database not connected: ${error}`);
+    })
+})
 
 // Error handling for unhandled promises
 process.on("unhandledRejection", (error) => {

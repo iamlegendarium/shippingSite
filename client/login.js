@@ -1,6 +1,6 @@
 const loginBtn = (event) => {
     event.preventDefault();
-    // let url = "https://shipping-site-psi.vercel.app/login";
+    // let url = "https://shippingsite.onrender.com/login";
     let url = "http://localhost:4000/login";
   
     const email = document.getElementById("email").value;
@@ -45,7 +45,7 @@ const loginBtn = (event) => {
         }
         // console.log("Signin Successful", data);
         // alert("Signin successful!");
-        window.location.href = "../client/dashboard.html";
+        window.location.href = "/dashboard.html";
       })
       .catch((error) => {
         console.error("Error:", error);

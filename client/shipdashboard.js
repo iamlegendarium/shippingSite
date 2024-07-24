@@ -13,7 +13,7 @@ async function fetchShipments() {
             throw new Error('No token found in localStorage');
         }
 
-        const response = await fetch('http://localhost:4000/shipments', {
+        const response = await fetch('https://shippingsite.onrender.com/shipments', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

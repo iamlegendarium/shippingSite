@@ -1,6 +1,6 @@
 const signupBtn = (event) => {
   event.preventDefault();
-  let url = "https://shipping-site-psi.vercel.app/register";
+  let url = "https://shippingsite.onrender.com/register";
 
   const firstName = document.getElementById("fName").value;
   const lastName = document.getElementById("lName").value;
@@ -37,7 +37,7 @@ const signupBtn = (event) => {
     .then((data) => {
       // console.log("Successfully registered", data);
       // alert("Signup successful!");
-      window.location.href = "../client/login.html";
+      window.location.href = "/login.html";
     })
     .catch((error) => {
       console.error("Error:", error);

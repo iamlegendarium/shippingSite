@@ -6,13 +6,17 @@ const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
 const nodemailer = require("nodemailer");
+const { Parcel, ParcelStatusUpdate } = require('../models/parcel.model');
+const { Op } = require('sequelize');
+
+
+dotenv.config();
 
 const secret = process.env.SECRET;
 
-const index = (req,res) =>{
+const index = (req, res) => {
   res.sendFile(path.join(__dirname, "../../client/index.html"));
-
-}
+};
 
 const generateVerificationToken = (email) => {
   const payload = { email };
@@ -42,20 +46,15 @@ const userRegistration = async (req, res) => {
     });
 
     console.log("Registration successful", user);
+    // res.send(user)
 
     const verificationLink = `http://localhost:3000/verify?token=${verificationToken}`;
 
     sendVerificationEmail(email, verificationLink);
-    // res.json({
-    //   message: "Registration successful, and Verification link send",
-    //   user,
-    // });
-    // res.redirect("/login");
     res.status(200).json({
       message: "Registration successful, and Verification link sent",
       user,
     });
-
   } catch (error) {
     console.log(error);
   }
@@ -95,12 +94,12 @@ const verifyUserEmail = async (req, res) => {
     const users = await User.findOne({ where: { email: decoded.email } });
     if (!users) {
       console.log("User not found");
-    //   return res.json({ message: "User not found" });
+      //   return res.json({ message: "User not found" });
     }
 
     if (users.isVerified) {
       console.log("User already verified", users);
-    //   return res.json({ message: "User already verified" });
+      //   return res.json({ message: "User already verified" });
     }
 
     (users.isVerified = true),
@@ -112,7 +111,7 @@ const verifyUserEmail = async (req, res) => {
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       console.log("Token expired", error);
-    //   return res.status(401).json({ message: "Token expired" });
+      //   return res.status(401).json({ message: "Token expired" });
     }
     console.log("Error verifying token");
     // return res.status(401).json({ message: "Error verifying token" });
@@ -122,6 +121,7 @@ const verifyUserEmail = async (req, res) => {
 const getLogin = (req, res) => {
   res.sendFile(path.join(__dirname, "../../client/login.html"));
 };
+
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -143,19 +143,181 @@ const login = async (req, res) => {
       return res.status(401).json({ message: "User not verified" });
     }
 
-
-    const token = jwt.sign({ email: email }, secret);
-    // res.json({ token });
-    res.status(200).json({ message: "User signin success" });
-
+    const token = jwt.sign({ id: user.id }, secret); // Include user ID in token payload
+    res.status(200).json({ message: "User signin success", token });
   } catch (error) {
     console.log(error);
   }
 };
 
-const getDashboard = (req,res) =>{
-    res.sendFile(path.join(__dirname, "../../client/dashboard.html"))
-}
+
+const getDashboard = (req, res) => {
+  res.sendFile(path.join(__dirname, "../../client/dashboard.html"));
+};
+
+
+const generateTrackingNumber = () => {
+  return 'TRK' + Math.random().toString(36).substr(2, 9).toUpperCase();
+};
+
+
+const createParcel = async (req, res) => {
+  try {
+    const {origin, destination, senderName, senderPhone, receiverName, receiverPhone, receiverAddress} = req.body;
+    const trackingNumber = generateTrackingNumber();
+    const userId = req.user.id; // Get user ID from the authenticated user
+
+    const parcel = await Parcel.create({
+      trackingNumber,
+      origin,
+      destination,
+      userId,
+      status: 'Pending',
+      senderName,
+      senderPhone,
+      receiverName,
+      receiverPhone,
+      receiverAddress
+    });
+
+    res.status(201).json({ message: 'Parcel created', trackingNumber, parcel });
+  } catch (error) {
+    console.error('Error creating parcel:', error);
+    res.status(500).json({ message: 'Error creating parcel', error: error.message });
+  }
+};
+
+
+
+const trackParcel = async (req, res) => {
+  try {
+    const { trackingNumber } = req.params;
+
+    // Find the parcel with the associated status updates
+    const parcel = await Parcel.findOne({
+      where: { trackingNumber },
+      include: [{
+        model: ParcelStatusUpdate,
+        as: 'statusUpdates' // Alias specified here
+      }]
+    });
+
+    if (!parcel) {
+      return res.status(404).json({ message: 'Parcel not found' });
+    }
+
+    res.status(200).json({ parcel });
+  } catch (error) {
+    res.status(500).json({ message: 'Error tracking parcel', error: error.message });
+  }
+};
+
+
+const updateParcelStatus = async (req, res) => {
+  try {
+    const { trackingNumber } = req.params;
+    const { status, location } = req.body;
+
+    // Find the parcel by tracking number
+    const parcel = await Parcel.findOne({ where: { trackingNumber } });
+
+    if (!parcel) {
+      return res.status(404).json({ message: 'Parcel not found' });
+    }
+
+    // Add new status update
+    await ParcelStatusUpdate.create({
+      ParcelId: parcel.id,
+      status,
+      location
+    });
+
+    // Update parcel status and current location
+    await parcel.update({ status, currentLocation: location });
+
+    // Find the updated parcel with status updates included
+    const updatedParcel = await Parcel.findOne({
+      where: { trackingNumber },
+      include: [{
+        model: ParcelStatusUpdate,
+        as: 'statusUpdates' // Alias specified here
+      }]
+    });
+
+    res.status(200).json({ message: 'Parcel status updated', parcel: updatedParcel });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating parcel status', error: error.message });
+  }
+};
+
+
+
+const getShipments = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { page = 1, query = '' } = req.query;
+    const itemsPerPage = 10;
+    const pageIndex = parseInt(page) - 1;
+
+    const filteredShipments = await Parcel.findAll({
+      where: {
+        userId,
+        [Op.or]: [
+          { trackingNumber: { [Op.like]: `%${query}%` } },
+          { receiverName: { [Op.like]: `%${query}%` } },
+          { origin: { [Op.like]: `%${query}%` } },
+          { destination: { [Op.like]: `%${query}%` } }
+        ]
+      },
+      limit: itemsPerPage,
+      offset: pageIndex * itemsPerPage
+    });
+
+    const totalShipments = await Parcel.count({
+      where: {
+        userId,
+        [Op.or]: [
+          { trackingNumber: { [Op.like]: `%${query}%` } },
+          { receiverName: { [Op.like]: `%${query}%` } },
+          { origin: { [Op.like]: `%${query}%` } },
+          { destination: { [Op.like]: `%${query}%` } }
+        ]
+      }
+    });
+
+    console.log('Shipments found:', filteredShipments); // Add this line for debugging
+
+    res.status(200).json({
+      shipments: filteredShipments,
+      totalPages: Math.ceil(totalShipments / itemsPerPage),
+    });
+  } catch (error) {
+    console.error('Error fetching shipments:', error);
+    res.status(500).json({ error: 'An error occurred while fetching shipments' });
+  }
+};
+
+
+
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(403).json({ message: 'No token provided' });
+  }
+
+  jwt.verify(token, secret, (err, user) => {
+    if (err) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+
+    req.user = user; // Attach user to req object
+    next();
+  });
+};
+
+
 
 module.exports = {
   userRegistration,
@@ -164,5 +326,10 @@ module.exports = {
   getUserRegistration,
   getLogin,
   getDashboard,
-  index
+  index,
+  createParcel,
+  trackParcel,
+  updateParcelStatus,
+  getShipments,
+  authenticateToken
 };

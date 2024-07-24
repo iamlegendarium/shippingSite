@@ -1,6 +1,7 @@
 const loginBtn = (event) => {
     event.preventDefault();
-    let url = "https://shipping-site-psi.vercel.app/login";
+    // let url = "https://shipping-site-psi.vercel.app/login";
+    let url = "http://localhost:4000/login";
   
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;

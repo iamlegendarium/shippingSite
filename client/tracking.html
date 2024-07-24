@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parcel Tracking Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            padding-top: 60px; /* Adjust this value to ensure content doesn't hide behind the header */
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+        header {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1030; /* Ensure the header is above other content */
+        }
+        .container {
+            margin-top: 0px; /* Ensure the container is below the fixed header */
+        }
+        .table-container {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        .table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            background-color: #ffffff;
+        }
+        .table th, .table td {
+            padding: 12px 15px;
+            vertical-align: middle;
+            border: 1px solid #dee2e6;
+        }
+        .table thead th {
+            background-color: #343a40;
+            color: #ffffff;
+            font-weight: bold;
+            text-align: center;
+        }
+        .table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .table tbody tr:hover {
+            background-color: #e9ecef;
+        }
+        .nested-table {
+            margin: 0;
+        }
+        .nested-table td {
+            border-top: 1px solid #dee2e6; /* Add border to separate rows */
+        }
+        .status-table th, .status-table td {
+            text-align: center;
+            padding: 8px 12px;
+        }
+        .status-table th {
+            background-color: #f8f9fa;
+        }
+        .page-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="bg-primary text-white fixed-top py-3">
+        <div class="container">
+            <h2 class="text-center">Parcel Tracking Details</h2>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="table-container">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Tracking Number</th>
+                        <th>Status</th>
+                        <th>Origin</th>
+                        <th>Destination</th>
+                        <th>Current Location</th>
+                        <th>Sender Name</th>
+                        <th>Sender Phone</th>
+                        <th>Receiver Name</th>
+                        <th>Receiver Phone</th>
+                        <th>Receiver Address</th>
+                        <th>Status Updates</th>
+                    </tr>
+                </thead>
+                <tbody id="parcel-details">
+                    <!-- Parcel details will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Extract the query parameters from the URL
+        const queryParams = new URLSearchParams(window.location.search);
+        const trackingNumber = queryParams.get('trackingNumber');
+
+        // Fetch the parcel details from the API
+        fetch(`http://localhost:4000/parcels/${trackingNumber}`)
+            .then(response => response.json())
+            .then(data => {
+                const parcel = data.parcel;
+                const statusUpdates = parcel.statusUpdates.map(update => 
+                    `<tr>
+                        <td>${update.status}</td>
+                        <td>${update.location}</td>
+                    </tr>`
+                ).join('');
+
+                document.getElementById('parcel-details').innerHTML = `
+                    <tr>
+                        <td>${parcel.trackingNumber}</td>
+                        <td>${parcel.status}</td>
+                        <td>${parcel.origin}</td>
+                        <td>${parcel.destination}</td>
+                        <td>${parcel.currentLocation}</td>
+                        <td>${parcel.senderName}</td>
+                        <td>${parcel.senderPhone}</td>
+                        <td>${parcel.receiverName}</td>
+                        <td>${parcel.receiverPhone}</td>
+                        <td>${parcel.receiverAddress}</td>
+                        <td>
+                            <table class="table table-sm nested-table status-table">
+                                <tbody>
+                                    ${statusUpdates}
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                `;
+            })
+            .catch(error => console.error('Error fetching parcel details:', error));
+    </script>
+
+</body>
+</html>

@@ -25,12 +25,18 @@ sequelize
   .sync()
   .then(() => {
     console.log("Database connected");
-    app.listen(PORT, () => {
+    app.listen(4000, () => {
       console.log(`Server running on port ${PORT}`);
     });
   })
   .catch((error) => {
-    console.log(`Server is not running on port ${PORT}`);
+    console.error(`Server is not running on port ${PORT}`);
+    console.error("Database connection error:", error);
   });
 
+
+  // Error handling for unhandled promises
+process.on('unhandledRejection', (error) => {
+  console.error('Unhandled Rejection:', error);
+});
   module.exports = app

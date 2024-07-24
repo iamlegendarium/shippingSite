@@ -7,7 +7,7 @@ const path = require("path");
 const sequelize = require("./config/database");
 const router = require("./routes/user.route");
 
-let PORT = process.env.PORT || 4000;
+let PORT = process.env.PORT || 3306;
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../client")));

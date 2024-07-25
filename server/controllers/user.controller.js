@@ -110,7 +110,7 @@ const verifyUserEmail = async (req, res) => {
       (users.verificationToken = null),
       await users.save();
 
-      res.redirect('../client/verifiedEmail.html');
+      res.redirect('../../client/verifiedEmail.html');
 
     console.log("User verification complete", users);
     res.json({ message: "User verification complete", users });

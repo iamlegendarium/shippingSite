@@ -45,7 +45,7 @@ const loginBtn = (event) => {
         }
         // console.log("Signin Successful", data);
         // alert("Signin successful!");
-        window.location.href = "../client/dashboard.html";
+        window.location.href = "/dashboard.html";
       })
       .catch((error) => {
         console.error("Error:", error);

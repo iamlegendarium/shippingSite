@@ -52,7 +52,7 @@ const userRegistration = async (req, res) => {
     console.log("Registration successful", user);
     // res.send(user)
 
-    const verificationLink = `https://shippingsite.onrender.com/?token=${verificationToken}`;
+    const verificationLink = `https://shippingsite.onrender.com/verify?token=${verificationToken}`;
 
     sendVerificationEmail(email, verificationLink);
     res.status(200).json({
@@ -110,7 +110,7 @@ const verifyUserEmail = async (req, res) => {
       (users.verificationToken = null),
       await users.save();
 
-      res.redirect('../../client/verifiedEmail.html');
+      res.redirect('/emailverification');
 
     console.log("User verification complete", users);
     res.json({ message: "User verification complete", users });

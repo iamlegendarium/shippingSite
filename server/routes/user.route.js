@@ -13,13 +13,15 @@ const {
   trackParcel,
   updateParcelStatus,
   getShipments,
-  authenticateToken
+  authenticateToken,
+  verifiedEmailPage
 } = require("../controllers/user.controller");
 
 router.get("/", index);
 router.get("/register", getUserRegistration);
 router.post("/register", userRegistration);
 router.get("/verify", verifyUserEmail);
+router.get("/emailverification", verifiedEmailPage);
 router.get("/login", getLogin);
 router.post("/login", login);
 router.get("/dashboard", authenticateToken, getDashboard);

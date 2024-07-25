@@ -29,6 +29,10 @@ const getUserRegistration = (req, res) => {
   res.sendFile(path.join(__dirname, "../../client/signup.html"));
 };
 
+const verifiedEmailPage = (req, res) => {
+  res.sendFile(path.join(__dirname, "../../client/verifiedEmail.html"));
+};
+
 const userRegistration = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
@@ -48,7 +52,11 @@ const userRegistration = async (req, res) => {
     console.log("Registration successful", user);
     // res.send(user)
 
-    const verificationLink = `https://shippingsite.onrender.com/verify?token=${verificationToken}`;
+    const verificationLink = `https://shippingsite.onrender.com/?token=${verificationToken}`;
+
+    if(verificationLink){
+      res.sendFile(path.join(__dirname, "../../client/verifiedEmail.html"));
+    }
 
     sendVerificationEmail(email, verificationLink);
     res.status(200).json({
@@ -331,5 +339,6 @@ module.exports = {
   trackParcel,
   updateParcelStatus,
   getShipments,
-  authenticateToken
+  authenticateToken,
+  verifiedEmailPage
 };

@@ -43,6 +43,259 @@
 //     });
 // };
 
+// const data = null;
+
+// const xhr = new XMLHttpRequest();
+// xhr.withCredentials = true;
+
+// xhr.addEventListener('readystatechange', function () {
+// 	if (this.readyState === this.DONE) {
+// 		console.log(this.responseText);
+// 	}
+// });
+
+// xhr.open('GET', 'https://google-translator9.p.rapidapi.com/v2/languages');
+// xhr.setRequestHeader('x-rapidapi-key', '7aec16c842msh8daf7979b3ac96dp17b4b2jsnccb0ee056374');
+// xhr.setRequestHeader('x-rapidapi-host', 'google-translator9.p.rapidapi.com');
+
+// xhr.send(data);
+
+document.addEventListener("DOMContentLoaded", function() {
+    const data = null;
+
+    const xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+
+    xhr.addEventListener('readystatechange', function () {
+        if (this.readyState === this.DONE) {
+            console.log('Response received:', this.responseText); // Add this line to debug
+            const response = JSON.parse(this.responseText);
+            populateLanguageDropdown(response.data.languages);
+        }
+    });
+
+    xhr.open('GET', 'https://google-translator9.p.rapidapi.com/v2/languages');
+    xhr.setRequestHeader('x-rapidapi-key', '7aec16c842msh8daf7979b3ac96dp17b4b2jsnccb0ee056374');
+    xhr.setRequestHeader('x-rapidapi-host', 'google-translator9.p.rapidapi.com');
+
+    xhr.send(data);
+
+    const languageNames = {
+        'af': 'Afrikaans',
+        'ak': 'Akan',
+        'am': 'Amharic',
+        'ar': 'Arabic',
+        'as': 'Assamese',
+        'ay': 'Aymara',
+        'az': 'Azerbaijani',
+        'be': 'Belarusian',
+        'bg': 'Bulgarian',
+        'bho': 'Bhojpuri',
+        'bm': 'Bambara',
+        'bn': 'Bengali',
+        'bs': 'Bosnian',
+        'ca': 'Catalan',
+        'ceb': 'Cebuano',
+        'ckb': 'Central Kurdish',
+        'co': 'Corsican',
+        'cs': 'Czech',
+        'cy': 'Welsh',
+        'da': 'Danish',
+        'de': 'German',
+        'doi': 'Dogri',
+        'dv': 'Dhivehi',
+        'ee': 'Ewe',
+        'el': 'Greek',
+        'en': 'English',
+        'eo': 'Esperanto',
+        'es': 'Spanish',
+        'et': 'Estonian',
+        'eu': 'Basque',
+        'fa': 'Persian',
+        'fi': 'Finnish',
+        'fr': 'French',
+        'fy': 'Western Frisian',
+        'ga': 'Irish',
+        'gd': 'Scottish Gaelic',
+        'gl': 'Galician',
+        'gn': 'Guarani',
+        'gom': 'Goan Konkani',
+        'gu': 'Gujarati',
+        'ha': 'Hausa',
+        'haw': 'Hawaiian',
+        'he': 'Hebrew',
+        'hi': 'Hindi',
+        'hmn': 'Hmong',
+        'hr': 'Croatian',
+        'ht': 'Haitian Creole',
+        'hu': 'Hungarian',
+        'hy': 'Armenian',
+        'id': 'Indonesian',
+        'ig': 'Igbo',
+        'ilo': 'Ilocano',
+        'is': 'Icelandic',
+        'it': 'Italian',
+        'ja': 'Japanese',
+        'jv': 'Javanese',
+        'ka': 'Georgian',
+        'kk': 'Kazakh',
+        'km': 'Khmer',
+        'kn': 'Kannada',
+        'ko': 'Korean',
+        'kri': 'Krio',
+        'ku': 'Kurdish',
+        'ky': 'Kyrgyz',
+        'la': 'Latin',
+        'lb': 'Luxembourgish',
+        'lg': 'Ganda',
+        'ln': 'Lingala',
+        'lo': 'Lao',
+        'lt': 'Lithuanian',
+        'lus': 'Mizo',
+        'lv': 'Latvian',
+        'mai': 'Maithili',
+        'mg': 'Malagasy',
+        'mi': 'Maori',
+        'mk': 'Macedonian',
+        'ml': 'Malayalam',
+        'mn': 'Mongolian',
+        'mr': 'Marathi',
+        'ms': 'Malay',
+        'mt': 'Maltese',
+        'my': 'Burmese',
+        'ne': 'Nepali',
+        'nl': 'Dutch',
+        'no': 'Norwegian',
+        'nso': 'Northern Sotho',
+        'ny': 'Nyanja',
+        'om': 'Oromo',
+        'or': 'Odia',
+        'pa': 'Punjabi',
+        'pl': 'Polish',
+        'ps': 'Pashto',
+        'pt': 'Portuguese',
+        'qu': 'Quechua',
+        'ro': 'Romanian',
+        'ru': 'Russian',
+        'rw': 'Kinyarwanda',
+        'sa': 'Sanskrit',
+        'sd': 'Sindhi',
+        'si': 'Sinhala',
+        'sk': 'Slovak',
+        'sl': 'Slovenian',
+        'sm': 'Samoan',
+        'sn': 'Shona',
+        'so': 'Somali',
+        'sq': 'Albanian',
+        'sr': 'Serbian',
+        'st': 'Southern Sotho',
+        'su': 'Sundanese',
+        'sv': 'Swedish',
+        'sw': 'Swahili',
+        'ta': 'Tamil',
+        'te': 'Telugu',
+        'tg': 'Tajik',
+        'th': 'Thai',
+        'ti': 'Tigrinya',
+        'tk': 'Turkmen',
+        'tl': 'Tagalog',
+        'tr': 'Turkish',
+        'ts': 'Tsonga',
+        'tt': 'Tatar',
+        'ug': 'Uyghur',
+        'uk': 'Ukrainian',
+        'ur': 'Urdu',
+        'uz': 'Uzbek',
+        'vi': 'Vietnamese',
+        'xh': 'Xhosa',
+        'yi': 'Yiddish',
+        'yo': 'Yoruba',
+        'zh': 'Chinese',
+        'zh-CN': 'Chinese (Simplified)',
+        'zh-TW': 'Chinese (Traditional)',
+        'zu': 'Zulu'
+    };
+
+
+    function populateLanguageDropdown(languages) {
+        console.log('Languages:', languages);
+        const dropdown = document.getElementById('language-dropdown');
+        languages.forEach(language => {
+            const option = document.createElement('option');
+            option.value = language.language;
+            option.textContent = languageNames[language.language] || language.language; // Use full name if available, otherwise use the code
+            console.log('Adding option:', option);
+            dropdown.appendChild(option);
+        });
+        console.log('Dropdown after population:', dropdown);
+    }
+
+    function translatePage() {
+        const selectedLanguage = document.getElementById('language-dropdown').value;
+        
+        // Collect all translatable text
+        const elementsToTranslate = document.querySelectorAll('[data-translate]');
+        const placeholdersToTranslate = document.querySelectorAll('[data-translate-placeholder]');
+        
+        let textToTranslate = [];
+
+        elementsToTranslate.forEach(el => {
+            textToTranslate.push(el.textContent.trim());
+        });
+
+        placeholdersToTranslate.forEach(el => {
+            textToTranslate.push(el.getAttribute('data-translate-placeholder'));
+        });
+
+        // Join all text with a unique separator
+        const combinedText = textToTranslate.join(' ||| ');
+
+        const translationXhr = new XMLHttpRequest();
+        translationXhr.withCredentials = true;
+
+        translationXhr.addEventListener('readystatechange', function () {
+            if (this.readyState === this.DONE) {
+                const translationResponse = JSON.parse(this.responseText);
+                if (translationResponse.data && translationResponse.data.translations && translationResponse.data.translations.length > 0) {
+                    const translatedTexts = translationResponse.data.translations[0].translatedText.split(' ||| ');
+                    updatePageContent(translatedTexts);
+                }
+            }
+        });
+
+        translationXhr.open('POST', 'https://google-translator9.p.rapidapi.com/v2');
+        translationXhr.setRequestHeader('content-type', 'application/json');
+        translationXhr.setRequestHeader('x-rapidapi-key', '7aec16c842msh8daf7979b3ac96dp17b4b2jsnccb0ee056374');
+        translationXhr.setRequestHeader('x-rapidapi-host', 'google-translator9.p.rapidapi.com');
+
+        const translationData = {
+            q: combinedText,
+            target: selectedLanguage
+        };
+
+        translationXhr.send(JSON.stringify(translationData));
+    }
+
+    function updatePageContent(translatedTexts) {
+        let textIndex = 0;
+        const elementsToTranslate = document.querySelectorAll('[data-translate]');
+        const placeholdersToTranslate = document.querySelectorAll('[data-translate-placeholder]');
+
+        elementsToTranslate.forEach(el => {
+            el.textContent = translatedTexts[textIndex];
+            textIndex++;
+        });
+
+        placeholdersToTranslate.forEach(el => {
+            el.setAttribute('placeholder', translatedTexts[textIndex]);
+            textIndex++;
+        });
+    }
+
+    // Add event listener to dropdown
+    document.getElementById('language-dropdown').addEventListener('change', translatePage);
+});
+
 
 const trackBtn = () => {
     const trackingNumber = document.getElementById("track").value;

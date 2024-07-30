@@ -30,8 +30,8 @@ async function fetchShipments() {
         if (data.shipments && Array.isArray(data.shipments)) {
             renderShipments(data.shipments);
         } else {
-            console.error('Unexpected data structure:', data);
-            throw new Error('Unexpected data structure received from server');
+            // console.error('Unexpected data structure:', data);
+            // throw new Error('Unexpected data structure received from server');
         }
     } catch (error) {
         console.error('Error fetching shipments:', error);

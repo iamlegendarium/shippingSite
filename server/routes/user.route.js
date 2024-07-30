@@ -14,10 +14,12 @@ const {
   updateParcelStatus,
   getShipments,
   authenticateToken,
-  verifiedEmailPage
+  verifiedEmailPage,
+  getLanguages
 } = require("../controllers/user.controller");
 
 router.get("/", index);
+router.get("/languages", getLanguages);
 router.get("/register", getUserRegistration);
 router.post("/register", userRegistration);
 router.get("/verify", verifyUserEmail);

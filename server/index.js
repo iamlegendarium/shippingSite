@@ -6,6 +6,7 @@ const cors = require("cors");
 const path = require("path");
 const sequelize = require("./config/database");
 const router = require("./routes/user.route");
+const axios = require('axios');
 
 let PORT = process.env.PORT || 4000;
 

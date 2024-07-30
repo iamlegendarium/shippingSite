@@ -8,6 +8,7 @@ const bcryptjs = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const { Parcel, ParcelStatusUpdate } = require('../models/parcel.model');
 const { Op } = require('sequelize');
+const axios = require('axios');
 
 
 dotenv.config();
@@ -323,6 +324,21 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
+const getLanguages = async (req, res) => {
+  try {
+      const response = await axios.get('https://google-translator9.p.rapidapi.com/v2/languages', {
+          headers: {
+              'x-rapidapi-key': '7aec16c842msh8daf7979b3ac96dp17b4b2jsnccb0ee056374',
+              'x-rapidapi-host': 'google-translator9.p.rapidapi.com'
+          }
+      });
+      res.json(response.data);
+  } catch (error) {
+      console.error('Error fetching languages:', error);
+      res.status(500).json({ message: 'Failed to fetch languages' });
+  }
+};
+
 
 
 module.exports = {
@@ -338,5 +354,6 @@ module.exports = {
   updateParcelStatus,
   getShipments,
   authenticateToken,
-  verifiedEmailPage
+  verifiedEmailPage,
+  getLanguages
 };

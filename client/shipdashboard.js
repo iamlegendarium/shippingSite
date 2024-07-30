@@ -35,7 +35,7 @@ async function fetchShipments() {
         }
     } catch (error) {
         console.error('Error fetching shipments:', error);
-        alert('Failed to fetch shipments: ' + error.message);
+        alert('Failed to fetch shipments: ' + error);
     }
 }
 

@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchLanguages() {
     console.log('Fetching languages...');
     try {
-        const response = await fetch('http://localhost:4000/languages');
+        const response = await fetch('https://shippingsite.onrender.com/languages');
         if (!response.ok) {
             const errorText = await response.text();
             throw new Error(`Failed to fetch languages: ${response.status} ${response.statusText} - ${errorText}`);

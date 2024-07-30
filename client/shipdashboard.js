@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchShipments() {
     console.log('Fetching shipments...');
     try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('authToken');
         console.log('Token:', token);
         
         if (!token) {

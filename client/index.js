@@ -297,6 +297,8 @@
 // });
 
 
+// 
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('JavaScript file loaded');
     fetchLanguages();
@@ -343,38 +345,11 @@ function populateLanguageDropdown(languages) {
     console.log('Dropdown after population:', dropdown);
 }
 
-
 document.getElementById('language-dropdown').addEventListener('change', (event) => {
     const selectedLanguage = event.target.value;
     translatePage(selectedLanguage);
 });
 
-async function translatePage(language) {
-    try {
-        const response = await fetch(`https://google-translator9.p.rapidapi.com/v2`, {
-            method: 'POST',
-            headers: {
-                'x-rapidapi-key': '7aec16c842msh8daf7979b3ac96dp17b4b2jsnccb0ee056374',
-                'x-rapidapi-host': 'google-translator9.p.rapidapi.com',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                q: document.body.innerText, // or you can loop through specific elements to translate
-                target: language
-            })
-        });
-
-        const data = await response.json();
-        console.log('Translation data:', data);
-
-        // Assuming the API returns translated text in `data.translations.translatedText`
-        // Update your page content with the translated text
-        document.body.innerText = data.translations.translatedText;
-    } catch (error) {
-        console.error('Error translating page:', error);
-        alert('Failed to translate page: ' + error.message);
-    }
-}
 
 
 const trackBtn = () => {

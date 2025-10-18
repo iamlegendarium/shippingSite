@@ -1,6 +1,6 @@
 const signupBtn = (event) => {
   event.preventDefault();
-  let url = "http://localhost:3000/api/register";
+  let url = "https://shippingsite.onrender.com/api/register";
 
   const firstName = document.getElementById("fName").value;
   const lastName = document.getElementById("lName").value;
@@ -43,39 +43,3 @@ const signupBtn = (event) => {
       alert("Signup failed: " + error.message);
     });
 };
-
-// const signupBtn = (event) => {
-//   event.preventDefault();
-//   let url = "http://localhost:4000/register";
-
-//   const firstName = document.getElementById("fName").value;
-//   const lastName = document.getElementById("lName").value;
-//   const email = document.getElementById("email").value;
-//   const password = document.getElementById("password").value;
-
-//   const formData = new FormData();
-//   formData.append("fName", firstName);
-//   formData.append("lName", lastName);
-//   formData.append("email", email);
-//   formData.append("password", password);
-
-//   fetch(url, {
-//     method: "POST",
-//     body: formData,
-//   })
-//     .then((res) => {
-//       if (!res.ok) {
-//         console.log("Network error");
-//       }
-//       res.json("Network error");
-//     })
-//     .then((data) => {
-//       if (data.ok) {
-//         console.log("Successfully registered");
-//       }
-//       alert("Signup failed");
-//     })
-//     .catch((error) => {
-//       console.log("Error", error);
-//     });
-// };

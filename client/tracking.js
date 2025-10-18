@@ -11,7 +11,7 @@ async function fetchShipments() {
       throw new Error("No token found in localStorage");
     }
 
-    const response = await fetch("http://localhost:3000/api/parcel/shipments", {
+    const response = await fetch("http://localhost:3000/api/parcel/trac/shipments", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -5,7 +5,7 @@ const authenticateToken = require('../middleware/auth')
 
 
 router.post('/create', authenticateToken, parcelController.createParcel); // Protect route
-router.get('/track', authenticateToken, parcelController.trackParcel); // Protect route
+router.get('/track/:trackingNumber', authenticateToken, parcelController.trackParcel); // Protect route
 router.put('/:trackingNumber', authenticateToken, parcelController.updateParcelStatus); // Protect route
 router.get('/shipments', authenticateToken, parcelController.getShipments); // Protect route
 

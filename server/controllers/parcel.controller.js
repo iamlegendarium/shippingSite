@@ -23,6 +23,8 @@ const createParcel = async (req, res) => {
     } = req.body;
     const trackingNumber = generateTrackingNumber();
     const userId = req.user.id; // Get user ID from the authenticated user
+    console.log(userId);
+    
 
     const parcel = await Parcel.create({
       trackingNumber,
@@ -48,7 +50,7 @@ const createParcel = async (req, res) => {
 
 const trackParcel = async (req, res) => {
   try {
-    const { trackingNumber } = req.body;
+    const { trackingNumber } = req.params;
     if(!trackingNumber){
         return res.status(400).json({message: "Provide tracking number"})
     }

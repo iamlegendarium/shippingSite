@@ -11,11 +11,11 @@ const {
   getDashboard,
   index,
   verifiedEmailPage,
-  getLanguages
+  translateSite
 } = require("../controllers/user.controller");
 
 router.get("/", index);
-router.get("/languages", getLanguages);
+router.get("/languages", translateSite);
 router.get("/register", getUserRegistration);
 router.post("/register", userRegistration);
 router.get("/verify", verifyUserEmail);

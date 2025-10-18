@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css" />
     <style>
         body {
-            padding-top: 60px; /* Adjust this value to ensure content doesn't hide behind the header */
+            padding-top: 60px;
             font-family: 'Arial', sans-serif;
             background-color: #f8f9fa;
         }
@@ -20,10 +20,10 @@
             position: fixed;
             width: 100%;
             top: 0;
-            z-index: 1030; /* Ensure the header is above other content */
+            z-index: 1030;
         }
         .container {
-            margin-top: 0px; /* Ensure the container is below the fixed header */
+            margin-top: 0px;
         }
         .table-container {
             margin-top: 20px;
@@ -56,7 +56,7 @@
             margin: 0;
         }
         .nested-table td {
-            border-top: 1px solid #dee2e6; /* Add border to separate rows */
+            border-top: 1px solid #dee2e6;
         }
         .status-table th, .status-table td {
             text-align: center;
@@ -80,29 +80,24 @@
             <h2 class="text-center">Parcel Tracking Details</h2>
         </div>
     </header>
-
-    <div class="container">
-        <div class="table-container">
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>Tracking Number</th>
-                        <th>Status</th>
-                        <th>Origin</th>
-                        <th>Destination</th>
-                        <th>Current Location</th>
-                        <th>Sender Name</th>
-                        <th>Sender Phone</th>
-                        <th>Receiver Name</th>
-                        <th>Receiver Phone</th>
-                        <th>Receiver Address</th>
-                        <th>Status Updates</th>
-                    </tr>
-                </thead>
-                <tbody id="parcel-details">
-                    <!-- Parcel details will be inserted here -->
-                </tbody>
-            </table>
+        <div class="mt-5">
+            <div class="table-container">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Tracking Number</th>
+                            <th>Origin</th>
+                            <th>Destination</th>
+                            <th>Status</th>
+                            <th>Sender Name</th>
+                            <th>Receiver Name</th>
+                            <th>Receiver Address</th>
+                        </tr>
+                    </thead>
+                    <tbody id="shipmentTableBody">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -111,17 +106,27 @@
         const queryParams = new URLSearchParams(window.location.search);
         const trackingNumber = queryParams.get('trackingNumber');
 
-        // Fetch the parcel details from the API
-        fetch(`http://localhost:4000/parcels/${trackingNumber}`)
-            .then(response => response.json())
+        // Fetch the single parcel details from the API
+        if (trackingNumber) {
+            fetch(`http://localhost:3000/api/parcel/${trackingNumber}`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch parcel details');
+                }
+                return response.json();
+            })
             .then(data => {
                 const parcel = data.parcel;
-                const statusUpdates = parcel.statusUpdates.map(update => 
+                const statusUpdates = parcel.statusUpdates ? parcel.statusUpdates.map(update => 
                     `<tr>
-                        <td>${update.status}</td>
-                        <td>${update.location}</td>
+                        <td>${update.status || 'N/A'}</td>
+                        <td>${update.location || 'N/A'}</td>
                     </tr>`
-                ).join('');
+                ).join('') : '<tr><td colspan="2">No status updates</td></tr>';
 
                 document.getElementById('parcel-details').innerHTML = `
                     <tr>
@@ -129,7 +134,7 @@
                         <td>${parcel.status}</td>
                         <td>${parcel.origin}</td>
                         <td>${parcel.destination}</td>
-                        <td>${parcel.currentLocation}</td>
+                        <td>${parcel.currentLocation || 'N/A'}</td>
                         <td>${parcel.senderName}</td>
                         <td>${parcel.senderPhone}</td>
                         <td>${parcel.receiverName}</td>
@@ -137,6 +142,12 @@
                         <td>${parcel.receiverAddress}</td>
                         <td>
                             <table class="table table-sm nested-table status-table">
+                                <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Location</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     ${statusUpdates}
                                 </tbody>
@@ -145,7 +156,98 @@
                     </tr>
                 `;
             })
-            .catch(error => console.error('Error fetching parcel details:', error));
+            .catch(error => {
+                console.error('Error fetching parcel details:', error);
+                document.getElementById('parcel-details').innerHTML = `
+                    <tr>
+                        <td colspan="11" class="text-center text-danger">
+                            Error loading parcel details: ${error.message}
+                        </td>
+                    </tr>
+                `;
+            });
+        } else {
+            document.getElementById('parcel-details').innerHTML = `
+                <tr>
+                    <td colspan="11" class="text-center text-warning">
+                        No tracking number provided
+                    </td>
+                </tr>
+            `;
+        }
+
+        // Fetch all shipments
+        async function fetchShipments() {
+            try {
+                const token = localStorage.getItem("authToken");
+                if (!token) {
+                    throw new Error("No token found");
+                }
+
+                const response = await fetch("http://localhost:3000/api/parcel/shipments", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch shipments: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.shipments && Array.isArray(data.shipments)) {
+                    renderShipments(data.shipments);
+                } else {
+                    document.getElementById('shipmentTableBody').innerHTML = `
+                        <tr>
+                            <td colspan="7" class="text-center">No shipment data available</td>
+                        </tr>
+                    `;
+                }
+            } catch (error) {
+                console.error("Error fetching shipments:", error);
+                document.getElementById('shipmentTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center text-danger">
+                            Error loading shipments: ${error.message}
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function renderShipments(shipments) {
+            const shipmentTableBody = document.getElementById("shipmentTableBody");
+            shipmentTableBody.innerHTML = "";
+
+            if (shipments && shipments.length > 0) {
+                shipments.forEach((shipment) => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${shipment.trackingNumber}</td>
+                        <td>${shipment.origin}</td>
+                        <td>${shipment.destination}</td>
+                        <td>${shipment.status}</td>
+                        <td>${shipment.senderName}</td>
+                        <td>${shipment.receiverName}</td>
+                        <td>${shipment.receiverAddress}</td>
+                    `;
+                    shipmentTableBody.appendChild(row);
+                });
+            } else {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td colspan="7" class="text-center">No shipment data available</td>
+                `;
+                shipmentTableBody.appendChild(row);
+            }
+        }
+
+        // Load shipments when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchShipments();
+        });
     </script>
 
 </body>

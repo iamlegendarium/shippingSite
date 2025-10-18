@@ -160,22 +160,64 @@ const getDashboard = (req, res) => {
   res.sendFile(path.join(__dirname, "../../client/dashboard.html"));
 };
 
-const getLanguages = async (req, res) => {
+const translateSite = async (req, res) => {
   try {
-    const response = await axios.get(
-      "https://google-translator9.p.rapidapi.com/v2/languages",
-      {
-        headers: {
-          "x-rapidapi-key":
-            "7aec16c842msh8daf7979b3ac96dp17b4b2jsnccb0ee056374",
-          "x-rapidapi-host": "google-translator9.p.rapidapi.com",
-        },
+    const { pageContent, targetLanguage, sourceLanguage = 'auto' } = req.body;
+
+    if (!pageContent || !targetLanguage) {
+      return res.status(400).json({ message: "Page content and target language are required" });
+    }
+
+    // Extract all unique text strings from the page content
+    const textElements = Array.from(pageContent).map(item => item.text);
+    const uniqueTexts = [...new Set(textElements.filter(text => text.trim()))];
+
+    console.log(`Translating ${uniqueTexts.length} text elements to ${targetLanguage}`);
+
+    const translations = {};
+
+    // Translate each unique text (you might want to batch this for better performance)
+    for (const text of uniqueTexts) {
+      try {
+        const response = await axios.post(
+          "https://google-translator9.p.rapidapi.com/v2",
+          {
+            q: text,
+            source: sourceLanguage,
+            target: targetLanguage,
+            format: "text"
+          },
+          {
+            headers: {
+              "x-rapidapi-key": "7aec16c842msh8daf7979b3ac96dp17b4b2jsnccb0ee056374",
+              "x-rapidapi-host": "google-translator9.p.rapidapi.com",
+              "content-type": "application/json"
+            },
+          }
+        );
+
+        translations[text] = response.data.data.translations[0].translatedText;
+        
+        // Small delay to avoid rate limiting
+        await new Promise(resolve => setTimeout(resolve, 100));
+      } catch (error) {
+        console.error(`Failed to translate: "${text}"`, error);
+        translations[text] = text; // Fallback to original text
       }
-    );
-    res.json(response.data);
+    }
+
+    res.json({ 
+      success: true,
+      translations,
+      translatedCount: Object.keys(translations).length
+    });
   } catch (error) {
-    console.error("Error fetching languages:", error);
-    res.status(500).json({ message: "Failed to fetch languages" });
+    console.error("Site translation error:", error);
+    res.status(500).json({ 
+      success: false,
+      message: "Site translation failed", 
+      error: error.message 
+    });
   }
 };
 
@@ -188,5 +230,5 @@ module.exports = {
   getDashboard,
   index,
   verifiedEmailPage,
-  getLanguages,
+  translateSite,
 };

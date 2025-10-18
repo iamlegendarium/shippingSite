@@ -12,7 +12,17 @@ const axios = require("axios");
 
 let PORT = process.env.PORT || 3000;
 
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "https://cdn.jsdelivr.net", "'unsafe-inline'"],
+      scriptSrc: ["'self'", "https://cdn.jsdelivr.net"],
+      scriptSrcAttr: ["'unsafe-inline'"],
+      connectSrc: ["'self'", "https://shippingsite.onrender.com"]
+    }
+  }
+}));
 
 app.use(
   cors({

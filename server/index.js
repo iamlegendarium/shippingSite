@@ -1,19 +1,24 @@
 const express = require("express");
 const app = express();
+const helmet = require("helmet")
 const dotenv = require("dotenv");
 dotenv.config();
 const cors = require("cors");
 const path = require("path");
 const sequelize = require("./config/database");
 const router = require("./routes/user.route");
+const parcelRouter = require("./routes/parcel.route")
 const axios = require('axios');
 
-let PORT = process.env.PORT || 4000;
+let PORT = process.env.PORT || 3000;
+
+app.use(helmet())
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../client")));
 app.use(cors());
-app.use("/", router);
+app.use("/api", router);
+app.use("/api/parcel", parcelRouter);
 
 // Serve the default HTML file for the root URL
 // app.get("/", (req, res) => {

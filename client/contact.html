@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Support</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .navbar-left .button {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .navbar-right span {
+            margin-left: 20px;
+            font-size: 0.9em;
+            color: #555;
+        }
+        .navbar-right .profile-initials {
+            background-color: #ddd;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 500;
+            margin-left: 10px;
+            font-size: 0.85em;
+            color: #666;
+        }
+        .content-container {
+            padding: 30px;
+            max-width: 960px; /* Max width from your design */
+            margin: 0 auto;
+        }
+        .page-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #222;
+        }
+        .card {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .card h3 {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #444;
+        }
+        .form-group input[type="email"],
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box; /* Include padding in width */
+            transition: border-color 0.2s;
+        }
+        .form-group input[type="email"]:focus,
+        .form-group input[type="text"]:focus,
+        .form-group textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical; /* Allow vertical resizing */
+        }
+        .form-group input[type="file"] {
+            display: block;
+            padding-top: 5px; /* Add some spacing */
+        }
+        .submit-button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+
+        .action-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        .action-card {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+        }
+        .action-card h3 {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .action-card p {
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #555;
+            flex-grow: 1; /* Make paragraphs take up available space */
+            margin-bottom: 20px;
+        }
+        .action-card .button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9em;
+            align-self: flex-start; /* Align button to start */
+            transition: background-color 0.2s;
+        }
+        .action-card .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="dashboard.html" class="button">Home</a>
+        </div>
+        <div class="navbar-right">
+            <span>Support</span>
+            <span class="profile-initials">BP</span>
+        </div>
+    </div>
+
+    <div class="content-container">
+        <h1 class="page-title">Contact Support</h1>
+
+        <div class="card">
+            <h3>Submit a Support Request</h3>
+            <form action="#" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="email">Your Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="e.g., yourname@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" placeholder="e.g., Issue with tracking, Billing question" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Please describe your issue in detail..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="attachment">Attach File (Optional)</label>
+                    <input type="file" id="attachment" name="attachment">
+                </div>
+                <button type="submit" class="submit-button">Submit Request</button>
+            </form>
+        </div>
+
+        <div class="action-cards">
+            <div class="action-card">
+                <h3>Help center</h3>
+                <p>Check our documentation to get all the information you need.</p>
+                <a href="#" class="button">Explore documentation</a>
+            </div>
+            <div class="action-card">
+                <h3>Support</h3>
+                <p>Need help? Submit a request to our support team and we'll get back to you shortly.</p>
+                <a href="#" class="button">Contact support</a>
+            </div>
+            <div class="action-card">
+                <h3>Contact sales</h3>
+                <p>Talk with an expert to see how we can provide the best solutions for shipment tracking.</p>
+                <a href="#" class="button">Contact sales</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

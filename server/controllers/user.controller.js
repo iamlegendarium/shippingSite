@@ -52,7 +52,7 @@ const userRegistration = async (req, res) => {
     });
 
     console.log("Registration successful", user);
-    const verificationLink = `http://localhost:3000/verify?token=${verificationToken}`;
+    const verificationLink = `https://shippingsite.onrender.com/verify?token=${verificationToken}`;
 
     sendVerificationEmail(email, verificationLink);
     res.status(200).json({
@@ -98,13 +98,16 @@ const verifyUserEmail = async (req, res) => {
 
     const users = await User.findOne({ where: { email: decoded.email } });
     if (!users) {
-      console.log("User not found");
+      // console.log("User not found");
       return res.json({ message: "User not found" });
     }
 
     if (users.isVerified) {
-      console.log("User already verified", users);
-      return res.json({ message: "User already verified" });
+      // console.log("User already verified", users);
+      // return res.json({ message: "User already verified" });
+      return res.redirect(
+        "https://shipping-site-frontend.vercel.app/client/verifiedEmail.html"
+      );
     }
 
     (users.isVerified = true),
@@ -114,13 +117,16 @@ const verifyUserEmail = async (req, res) => {
     // res.redirect("/emailverification");
 
     console.log("User verification complete", users);
-    res.json({ message: "User verification complete", users });
+    // res.json({ message: "User verification complete", users });
+    res.redirect(
+      "https://shipping-site-frontend.vercel.app/client/verifiedEmail.html"
+    );
   } catch (error) {
     if (error.name === "TokenExpiredError") {
-      console.log("Token expired", error);
+      // console.log("Token expired", error);
       //   return res.status(401).json({ message: "Token expired" });
     }
-    console.log("Error verifying token");
+    // console.log("Error verifying token");
     // return res.status(401).json({ message: "Error verifying token" });
   }
 };
@@ -145,14 +151,14 @@ const login = async (req, res) => {
     }
 
     if (!user.isVerified) {
-      console.log("User not verified");
+      // console.log("User not verified");
       return res.status(401).json({ message: "User not verified" });
     }
 
     const token = jwt.sign({ id: user.id }, secret); // Include user ID in token payload
     res.status(200).json({ message: "User signin success", token });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
@@ -162,17 +168,23 @@ const getDashboard = (req, res) => {
 
 const translateSite = async (req, res) => {
   try {
-    const { pageContent, targetLanguage, sourceLanguage = 'auto' } = req.body;
+    const { pageContent, targetLanguage, sourceLanguage = "auto" } = req.body;
 
     if (!pageContent || !targetLanguage) {
-      return res.status(400).json({ message: "Page content and target language are required" });
+      return res
+        .status(400)
+        .json({ message: "Page content and target language are required" });
     }
 
     // Extract all unique text strings from the page content
-    const textElements = Array.from(pageContent).map(item => item.text);
-    const uniqueTexts = [...new Set(textElements.filter(text => text.trim()))];
+    const textElements = Array.from(pageContent).map((item) => item.text);
+    const uniqueTexts = [
+      ...new Set(textElements.filter((text) => text.trim())),
+    ];
 
-    console.log(`Translating ${uniqueTexts.length} text elements to ${targetLanguage}`);
+    console.log(
+      `Translating ${uniqueTexts.length} text elements to ${targetLanguage}`
+    );
 
     const translations = {};
 
@@ -185,38 +197,39 @@ const translateSite = async (req, res) => {
             q: text,
             source: sourceLanguage,
             target: targetLanguage,
-            format: "text"
+            format: "text",
           },
           {
             headers: {
-              "x-rapidapi-key": "7aec16c842msh8daf7979b3ac96dp17b4b2jsnccb0ee056374",
+              "x-rapidapi-key":
+                "7aec16c842msh8daf7979b3ac96dp17b4b2jsnccb0ee056374",
               "x-rapidapi-host": "google-translator9.p.rapidapi.com",
-              "content-type": "application/json"
+              "content-type": "application/json",
             },
           }
         );
 
         translations[text] = response.data.data.translations[0].translatedText;
-        
+
         // Small delay to avoid rate limiting
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 100));
       } catch (error) {
-        console.error(`Failed to translate: "${text}"`, error);
+        // console.error(`Failed to translate: "${text}"`, error);
         translations[text] = text; // Fallback to original text
       }
     }
 
-    res.json({ 
+    res.json({
       success: true,
       translations,
-      translatedCount: Object.keys(translations).length
+      translatedCount: Object.keys(translations).length,
     });
   } catch (error) {
-    console.error("Site translation error:", error);
-    res.status(500).json({ 
+    // console.error("Site translation error:", error);
+    res.status(500).json({
       success: false,
-      message: "Site translation failed", 
-      error: error.message 
+      message: "Site translation failed",
+      error: error.message,
     });
   }
 };

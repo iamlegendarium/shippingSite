@@ -80,7 +80,7 @@
     <div class="container text-center">
       <div class="card shadow-sm">
         <div class="card-body">
-      <div class="confetti" id="confetti"></div>
+          <div class="confetti" id="confetti"></div>
           <img src="./img/verified.jpg" alt="Email Verified" />
           <h2 class="mb-3">Congratulations!</h2>
           <p class="mb-4">Email Verified!!</p>
@@ -91,7 +91,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
+    <!-- <script>
       const confettiContainer = document.getElementById("confetti");
       const confettiHTML = Array(100)
         .fill(0)
@@ -103,6 +103,12 @@
         )
         .join("");
       confettiContainer.innerHTML = confettiHTML;
+    </script> -->
+    <script>
+      setTimeout(() => {
+        // Redirect to login after 5 seconds
+        window.location.href = "login.html";
+      }, 5000);
     </script>
   </body>
 </html>

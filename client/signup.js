@@ -36,7 +36,7 @@ const signupBtn = (event) => {
     .then((data) => {
       // console.log("Successfully registered", data);
       // alert("Signup successful!");
-      window.location.href = "login.html";
+      window.location.href = "verifyEmail.html";
     })
     .catch((error) => {
       console.error("Error:", error);

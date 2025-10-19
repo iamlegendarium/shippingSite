@@ -51,7 +51,7 @@ const userRegistration = async (req, res) => {
       isVerified: false,
     });
 
-    console.log("Registration successful", user);
+    // console.log("Registration successful", user);
     const verificationLink = `https://shippingsite.onrender.com/verify?token=${verificationToken}`;
 
     sendVerificationEmail(email, verificationLink);
@@ -83,7 +83,13 @@ const sendVerificationEmail = (email, verificationLink) => {
 
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) {
-      console.log("Error sending verification link");
+      console.error("NODEMAILER ERROR:", {
+        message: err.message,
+        code: err.code,
+        responseCode: err.responseCode,
+        response: err.response,
+        command: err.command,
+      });
     } else {
       console.log("Verification Link successfully sent", info.response);
     }
@@ -106,7 +112,7 @@ const verifyUserEmail = async (req, res) => {
       // console.log("User already verified", users);
       // return res.json({ message: "User already verified" });
       return res.redirect(
-        "https://shipping-site-frontend.vercel.app/client/verifiedEmail.html"
+        "https://shipping-site-frontend.vercel.app/verifiedEmail.html"
       );
     }
 
@@ -119,7 +125,7 @@ const verifyUserEmail = async (req, res) => {
     console.log("User verification complete", users);
     // res.json({ message: "User verification complete", users });
     res.redirect(
-      "https://shipping-site-frontend.vercel.app/client/verifiedEmail.html"
+      "https://shipping-site-frontend.vercel.app/verifiedEmail.html"
     );
   } catch (error) {
     if (error.name === "TokenExpiredError") {

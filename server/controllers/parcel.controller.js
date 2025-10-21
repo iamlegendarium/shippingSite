@@ -168,9 +168,41 @@ const getShipments = async (req, res) => {
   }
 };
 
+const unauthenticatedIndexTracking = async (req, res) => {
+  try {
+    // Get tracking number from either query parameters or URL parameters
+    const trackingNumber = req.query.trackingNumber || req.params.trackingNumber;
+
+    console.log('Looking for tracking number:', trackingNumber);
+
+    if (!trackingNumber) {
+      return res.status(400).json({ message: 'Tracking number is required' });
+    }
+
+    const parcel = await Parcel.findOne({
+      where: {
+        trackingNumber
+      },
+      include: ['statusUpdates']
+    });
+
+    if (!parcel) {
+      console.log('Parcel not found for tracking number:', trackingNumber);
+      return res.status(404).json({ message: 'Parcel not found' });
+    }
+
+    console.log('Parcel found:', parcel.trackingNumber);
+    res.status(200).json({ parcel });
+  } catch (error) {
+    console.error('Error fetching parcel:', error);
+    res.status(500).json({ error: 'An error occurred while fetching parcel' });
+  }
+};
+
 module.exports = {
   createParcel,
   trackParcel,
   updateParcelStatus,
   getShipments,
+  unauthenticatedIndexTracking
 };

@@ -1,52 +1,67 @@
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("JavaScript file loaded");
-  fetchShipments();
-});
-
-async function fetchShipments() {
-  console.log("Fetching shipments...");
-  try {
-    const token = localStorage.getItem("authToken");
+// Check if user is authenticated
+function checkAuth() {
+    const token = localStorage.getItem('authToken');
     if (!token) {
-      throw new Error("No token found in localStorage");
+        // Redirect to login page if not authenticated
+        window.location.href = 'login.html';
+        return false;
     }
+    return true;
+}
 
-    const response = await fetch("http://localhost:3000/api/parcel/shipments", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+// Fetch and display shipments
+async function fetchShipments() {
+    if (!checkAuth()) return;
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(
-        `Failed to fetch shipments: ${response.status} ${response.statusText} - ${errorText}`
-      );
+    try {
+        const token = localStorage.getItem("authToken");
+        const response = await fetch("https://shippingsite.onrender.com/api/parcel/shipments", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                // Token is invalid, redirect to login
+                localStorage.removeItem('authToken');
+                window.location.href = 'login.html';
+                return;
+            }
+            throw new Error(`Failed to fetch shipments: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        if (data.shipments && Array.isArray(data.shipments)) {
+            renderShipments(data.shipments);
+        } else {
+            document.getElementById('shipmentTableBody').innerHTML = `
+                <tr>
+                    <td colspan="7" class="text-center">No shipment data available</td>
+                </tr>
+            `;
+        }
+    } catch (error) {
+        console.error("Error fetching shipments:", error);
+        document.getElementById('shipmentTableBody').innerHTML = `
+            <tr>
+                <td colspan="7" class="text-center text-danger">
+                    Error loading shipments: ${error.message}
+                </td>
+            </tr>
+        `;
     }
-
-    const data = await response.json();
-    // console.log('Fetched data:', data);
-
-    if (data.shipments && Array.isArray(data.shipments)) {
-      renderShipments(data.shipments);
-    } else {
-      // console.error('Unexpected data structure:', data);
-      // throw new Error('Unexpected data structure received from server');
-    }
-  } catch (error) {
-    console.error("Error fetching shipments:", error);
-    alert("Failed to fetch shipments: " + error);
-  }
 }
 
 function renderShipments(shipments) {
-  const shipmentTableBody = document.getElementById("shipmentTableBody");
-  shipmentTableBody.innerHTML = "";
+    const shipmentTableBody = document.getElementById("shipmentTableBody");
+    shipmentTableBody.innerHTML = "";
 
-  if (shipments && shipments.length > 0) {
-    shipments.forEach((shipment) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
+    if (shipments && shipments.length > 0) {
+        shipments.forEach((shipment) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
                 <td>${shipment.trackingNumber}</td>
                 <td>${shipment.origin}</td>
                 <td>${shipment.destination}</td>
@@ -55,13 +70,21 @@ function renderShipments(shipments) {
                 <td>${shipment.receiverName}</td>
                 <td>${shipment.receiverAddress}</td>
             `;
-      shipmentTableBody.appendChild(row);
-    });
-  } else {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-            <td colspan="6" class="text-center">No shipment data available</td>
+            shipmentTableBody.appendChild(row);
+        });
+    } else {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td colspan="7" class="text-center">No shipment data available</td>
         `;
-    shipmentTableBody.appendChild(row);
-  }
+        shipmentTableBody.appendChild(row);
+    }
 }
+
+// Load shipments when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Check authentication first
+    if (checkAuth()) {
+        fetchShipments();
+    }
+});

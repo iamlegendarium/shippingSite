@@ -1,7 +1,4 @@
-// translator.js - Complete translation system for all pages
-
-// Configuration
-const API_BASE_URL = 'http://localhost:3000'; // Change to your production URL when deploying
+const API_BASE_URL = 'https://shippingsite.onrender.com'; // Change to your local URL when when testing
 const CACHE_KEY = 'translationCache';
 const LANG_KEY = 'selectedLanguage';
 

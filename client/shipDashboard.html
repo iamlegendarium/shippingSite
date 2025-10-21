@@ -30,7 +30,9 @@
                 <a class="nav-link text-white" href="dashboard.html">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white" href="shipDashboard.html">Shipment Dashboard</a>
+                <a class="nav-link text-white" href="shipDashboard.html"
+                  >Shipment Dashboard</a
+                >
               </li>
               <li class="nav-item">
                 <a class="nav-link text-white" href="#">Tracking History</a>
@@ -42,7 +44,9 @@
                 <a class="nav-link text-white" href="#">Settings</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white" href="#">Log Out</a>
+                <a class="nav-link text-white" href="#" id="logoutLink"
+                  >Log out</a
+                >
               </li>
               <li class="nav-item mt-4">
                 <button class="btn btn-light w-100">Upgrade plan</button>
@@ -76,5 +80,22 @@
       </div>
     </div>
     <script src="shipdashboard.js"></script>
+    <script>
+      // Logout functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const logoutLink = document.getElementById("logoutLink");
+
+        logoutLink.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          // Clear authentication token from localStorage
+          localStorage.removeItem("authToken");
+          localStorage.removeItem("user");
+
+          // Redirect to main index.html page
+          window.location.href = "index.html";
+        });
+      });
+    </script>
   </body>
 </html>

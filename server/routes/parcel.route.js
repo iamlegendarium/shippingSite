@@ -8,5 +8,7 @@ router.post('/create', authenticateToken, parcelController.createParcel); // Pro
 router.get('/track/:trackingNumber', authenticateToken, parcelController.trackParcel); // Protect route
 router.put('/:trackingNumber', authenticateToken, parcelController.updateParcelStatus); // Protect route
 router.get('/shipments', authenticateToken, parcelController.getShipments); // Protect route
+router.get('/tracking', parcelController.unauthenticatedIndexTracking); 
+router.get('/:trackingNumber', parcelController.unauthenticatedIndexTracking);
 
 module.exports = router

@@ -1,7 +1,7 @@
 const signupBtn = (event) => {
   event.preventDefault();
-  // let url = "https://shippingsite.onrender.com/api/register";
-  let url = "http://localhost:3000/api/register";
+  let url = "https://shippingsite.onrender.com/api/register";
+  // let url = "http://localhost:3000/api/register";
 
   const firstName = document.getElementById("fName").value;
   const lastName = document.getElementById("lName").value;

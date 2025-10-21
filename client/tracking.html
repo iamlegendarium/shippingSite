@@ -184,7 +184,7 @@
                     throw new Error("No token found");
                 }
 
-                const response = await fetch("https://shippingsite.onrender.com/api/parcel/shipments", {
+                const response = await fetch("http://localhost:3000/api/parcel/shipments", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

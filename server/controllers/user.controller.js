@@ -51,8 +51,8 @@ const userRegistration = async (req, res) => {
       isVerified: false,
     });
 
-    // console.log("Registration successful", user);
-    const verificationLink = `https://shippingsite.onrender.com/verify?token=${verificationToken}`;
+    console.log("Registration successful", user);
+    const verificationLink = `https://shippingsite.onrender.com/api/verify?token=${verificationToken}`;
 
     sendVerificationEmail(email, verificationLink);
     res.status(200).json({
@@ -109,8 +109,8 @@ const verifyUserEmail = async (req, res) => {
     }
 
     if (users.isVerified) {
-      // console.log("User already verified", users);
-      // return res.json({ message: "User already verified" });
+      console.log("User already verified", users);
+      return res.json({ message: "User already verified" });
       return res.redirect(
         "https://shipping-site-frontend.vercel.app/verifiedEmail.html"
       );
@@ -123,19 +123,19 @@ const verifyUserEmail = async (req, res) => {
     // res.redirect("/emailverification");
 
     console.log("User verification complete", users);
-    // res.json({ message: "User verification complete", users });
+    res.json({ message: "User verification complete", users });
     res.redirect(
       "https://shipping-site-frontend.vercel.app/verifiedEmail.html"
     );
   } catch (error) {
-    if (error.name === "TokenExpiredError") {
-      // console.log("Token expired", error);
-      //   return res.status(401).json({ message: "Token expired" });
+    // if (error.name === "TokenExpiredError") {
+    //   console.log("Token expired", error);
+    //     return res.status(401).json({ message: "Token expired" });
     }
     // console.log("Error verifying token");
     // return res.status(401).json({ message: "Error verifying token" });
   }
-};
+// };
 
 const getLogin = (req, res) => {
   res.sendFile(path.join(__dirname, "../../client/login.html"));
@@ -172,66 +172,146 @@ const getDashboard = (req, res) => {
   res.sendFile(path.join(__dirname, "../../client/dashboard.html"));
 };
 
+const getLanguages = async (req, res) => {
+  try {
+    // You can customize this list based on what your translation API supports
+    const languages = [
+      { language: "en", name: "English" },
+      { language: "es", name: "Spanish" },
+      { language: "fr", name: "French" },
+      { language: "de", name: "German" },
+      { language: "it", name: "Italian" },
+      { language: "pt", name: "Portuguese" },
+      { language: "ru", name: "Russian" },
+      { language: "ja", name: "Japanese" },
+      { language: "ko", name: "Korean" },
+      { language: "zh", name: "Chinese" },
+      { language: "ar", name: "Arabic" },
+      { language: "hi", name: "Hindi" },
+      { language: "tr", name: "Turkish" },
+      { language: "nl", name: "Dutch" },
+      { language: "pl", name: "Polish" },
+      { language: "sv", name: "Swedish" },
+      { language: "da", name: "Danish" },
+      { language: "th", name: "Thai" },
+      { language: "vi", name: "Vietnamese" },
+      { language: "id", name: "Indonesian" },
+    ];
+
+    res.json({
+      success: true,
+      data: {
+        languages,
+      },
+    });
+  } catch (error) {
+    // console.error('Error getting languages:', error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to get languages",
+      error: error.message,
+    });
+  }
+};
+
+// Translate entire site
 const translateSite = async (req, res) => {
   try {
-    const { pageContent, targetLanguage, sourceLanguage = "auto" } = req.body;
+    const { pageContent, targetLanguage, sourceLanguage = "en" } = req.body;
 
     if (!pageContent || !targetLanguage) {
-      return res
-        .status(400)
-        .json({ message: "Page content and target language are required" });
+      return res.status(400).json({
+        success: false,
+        message: "Page content and target language are required",
+      });
+    }
+
+    if (!Array.isArray(pageContent) || pageContent.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Page content must be a non-empty array",
+      });
     }
 
     // Extract all unique text strings from the page content
-    const textElements = Array.from(pageContent).map((item) => item.text);
+    const textElements = pageContent.map((item) => item.text);
     const uniqueTexts = [
-      ...new Set(textElements.filter((text) => text.trim())),
+      ...new Set(textElements.filter((text) => text && text.trim())),
     ];
 
     console.log(
-      `Translating ${uniqueTexts.length} text elements to ${targetLanguage}`
+      `Translating ${uniqueTexts.length} unique text elements to ${targetLanguage}`
     );
 
     const translations = {};
+    const batchSize = 10; // Translate in batches to avoid rate limiting
+    let translatedCount = 0;
 
-    // Translate each unique text (you might want to batch this for better performance)
-    for (const text of uniqueTexts) {
-      try {
-        const response = await axios.post(
-          "https://google-translator9.p.rapidapi.com/v2",
-          {
-            q: text,
-            source: sourceLanguage,
-            target: targetLanguage,
-            format: "text",
-          },
-          {
-            headers: {
-              "x-rapidapi-key":
-                "7aec16c842msh8daf7979b3ac96dp17b4b2jsnccb0ee056374",
-              "x-rapidapi-host": "google-translator9.p.rapidapi.com",
-              "content-type": "application/json",
+    // Process in batches
+    for (let i = 0; i < uniqueTexts.length; i += batchSize) {
+      const batch = uniqueTexts.slice(i, i + batchSize);
+
+      // Translate each text in the batch
+      const batchPromises = batch.map(async (text) => {
+        try {
+          const response = await axios.post(
+            "https://google-translator9.p.rapidapi.com/v2",
+            {
+              q: text,
+              source: sourceLanguage,
+              target: targetLanguage,
+              format: "text",
             },
+            {
+              headers: {
+                "x-rapidapi-key":
+                  "7aec16c842msh8daf7979b3ac96dp17b4b2jsnccb0ee056374",
+                "x-rapidapi-host": "google-translator9.p.rapidapi.com",
+                "content-type": "application/json",
+              },
+              timeout: 10000, // 10 second timeout
+            }
+          );
+
+          if (
+            response.data &&
+            response.data.data &&
+            response.data.data.translations
+          ) {
+            translations[text] =
+              response.data.data.translations[0].translatedText;
+            translatedCount++;
+          } else {
+            // console.warn(`No translation returned for: "${text}"`);
+            translations[text] = text; // Fallback to original text
           }
-        );
+        } catch (error) {
+          // console.error(`Failed to translate: "${text.substring(0, 50)}..."`, error.message);
+          translations[text] = text; // Fallback to original text
+        }
+      });
 
-        translations[text] = response.data.data.translations[0].translatedText;
+      // Wait for batch to complete
+      await Promise.all(batchPromises);
 
-        // Small delay to avoid rate limiting
-        await new Promise((resolve) => setTimeout(resolve, 100));
-      } catch (error) {
-        // console.error(`Failed to translate: "${text}"`, error);
-        translations[text] = text; // Fallback to original text
+      // Small delay between batches to avoid rate limiting
+      if (i + batchSize < uniqueTexts.length) {
+        await new Promise((resolve) => setTimeout(resolve, 500));
       }
     }
+
+    console.log(
+      `Successfully translated ${translatedCount}/${uniqueTexts.length} elements`
+    );
 
     res.json({
       success: true,
       translations,
       translatedCount: Object.keys(translations).length,
+      totalElements: uniqueTexts.length,
     });
   } catch (error) {
-    // console.error("Site translation error:", error);
+    console.error("Site translation error:", error);
     res.status(500).json({
       success: false,
       message: "Site translation failed",
@@ -239,6 +319,50 @@ const translateSite = async (req, res) => {
     });
   }
 };
+
+const resendEmailVerificationLink = async(req,res) => {
+  try {
+    const {email} = req.body
+    if(!email){
+      console.log("email is required");
+      return res.status(400).json({message: "email is required"})
+    }
+
+    const user = await User.findOne({where: {email}})
+    if(!user){
+      console.log("user not found");
+      return res.status(404).json({message: "user not found"})
+    }
+
+    // Check if user is already verified
+    if(user.isVerified){
+      console.log("user already verified");
+      return res.status(400).json({message: "user already verified"})
+    }
+
+    // Generate new verification token
+    const verificationToken = generateVerificationToken(email);
+    if (!verificationToken) throw new Error("verification token is required");
+
+    // Update user with new token
+    user.verificationToken = verificationToken;
+    await user.save();
+
+    // Create verification link
+    const verificationLink = `https://shippingsite.onrender.com/verify?token=${verificationToken}`;
+
+    // Send verification email
+    sendVerificationEmail(email, verificationLink);
+    
+    res.status(200).json({
+      message: "Verification link resent successfully",
+      verificationLink,
+    });
+  } catch (error) {
+    console.log("internal error", error);
+    return res.status(500).json({message: "internal error"}) // Changed from 401 to 500
+  }
+}
 
 module.exports = {
   userRegistration,
@@ -249,5 +373,7 @@ module.exports = {
   getDashboard,
   index,
   verifiedEmailPage,
+  getLanguages,
   translateSite,
+  resendEmailVerificationLink
 };

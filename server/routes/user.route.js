@@ -11,11 +11,14 @@ const {
   getDashboard,
   index,
   verifiedEmailPage,
-  translateSite
+  getLanguages,
+  translateSite,
+  resendEmailVerificationLink
 } = require("../controllers/user.controller");
 
 router.get("/", index);
-router.get("/languages", translateSite);
+router.get('/languages', getLanguages);
+router.post("/translate-site", translateSite);
 router.get("/register", getUserRegistration);
 router.post("/register", userRegistration);
 router.get("/verify", verifyUserEmail);
@@ -23,7 +26,7 @@ router.get("/emailverification", verifiedEmailPage);
 router.get("/login", getLogin);
 router.post("/login", login);
 router.get("/dashboard", authenticateToken, getDashboard);
-// curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNzIxNTc5NDIwfQ.cLAjrvNcRCd41R_HB8SvjjLabJo9SiRAOwrSFwDUT1M" http://localhost:4000/shipments
+router.post("/resend", resendEmailVerificationLink)
 
 
 module.exports = router;

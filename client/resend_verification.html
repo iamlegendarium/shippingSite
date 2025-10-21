@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resend Verification Link</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      }
+      
+      body {
+        background-color: #f8f9fa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        color: #333;
+        line-height: 1.5;
+      }
+      
+      .container {
+        display: flex;
+        max-width: 1000px;
+        width: 90%;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+      }
+      
+      .left-panel {
+        flex: 1;
+        padding: 50px 40px;
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      
+      .right-panel {
+        flex: 1;
+        padding: 50px 40px;
+      }
+      
+      h1 {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+      
+      h2 {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #1e293b;
+      }
+      
+      .subtitle {
+        color: #64748b;
+        margin-bottom: 30px;
+        font-size: 16px;
+      }
+      
+      .feature-list {
+        list-style: none;
+        margin: 30px 0;
+      }
+      
+      .feature-list li {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: flex-start;
+      }
+      
+      .feature-list li:before {
+        content: "✔";
+        color: #10b981;
+        font-weight: bold;
+        margin-right: 10px;
+        font-size: 18px;
+      }
+      
+      .btn {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+        text-decoration: none;
+      }
+      
+      .btn-primary {
+        background-color: #4f46e5;
+        color: white;
+      }
+      
+      .btn-primary:hover {
+        background-color: #4338ca;
+      }
+      
+      .btn-secondary {
+        background-color: transparent;
+        color: #4f46e5;
+        border: 1px solid #cbd5e1;
+        margin-top: 15px;
+      }
+      
+      .btn-secondary:hover {
+        background-color: #f8fafc;
+      }
+      
+      .divider {
+        display: flex;
+        align-items: center;
+        margin: 25px 0;
+        color: #64748b;
+      }
+      
+      .divider:before, .divider:after {
+        content: "";
+        flex: 1;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      
+      .divider-text {
+        padding: 0 15px;
+        font-size: 14px;
+      }
+      
+      .form-group {
+        margin-bottom: 20px;
+      }
+      
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #374151;
+      }
+      
+      input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: border-color 0.2s;
+      }
+      
+      input:focus {
+        outline: none;
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+      }
+      
+      .submit-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 12px;
+        background-color: #4f46e5;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+      
+      .submit-button:hover {
+        background-color: #4338ca;
+      }
+      
+      .submit-button:disabled {
+        background-color: #9ca3af;
+        cursor: not-allowed;
+      }
+      
+      .spinner {
+        display: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+        margin-right: 10px;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      
+      .message-area {
+        margin-top: 20px;
+        padding: 12px 15px;
+        border-radius: 6px;
+        text-align: center;
+        display: none;
+      }
+      
+      .message-success {
+        background-color: #d1fae5;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
+      }
+      
+      .message-error {
+        background-color: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+      }
+      
+      .business-link {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 14px;
+        color: #64748b;
+      }
+      
+      .business-link a {
+        color: #4f46e5;
+        text-decoration: none;
+        font-weight: 500;
+      }
+      
+      @media (max-width: 768px) {
+        .container {
+          flex-direction: column;
+        }
+        
+        .left-panel, .right-panel {
+          padding: 30px 25px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-panel">
+        <h1>Get free universal tracking for all your packages.</h1>
+        <ul class="feature-list">
+          <li>Track and save unlimited packages</li>
+          <li>Receive or send notifications</li>
+          <li>Identify package delivery exceptions</li>
+          <li>Improve the delivery success rate of your packages</li>
+        </ul>
+        <a href="#" class="btn btn-secondary">Need solutions for your business? Sign up as a business</a>
+      </div>
+      
+      <div class="right-panel">
+        <h2>Need a New Link?</h2>
+        <p class="subtitle">Enter your registered email address below to receive a new verification link.</p>
+        
+        <form id="resendForm">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              placeholder="you@example.com"
+            />
+          </div>
+          
+          <button
+            type="submit"
+            id="submitButton"
+            class="submit-button"
+          >
+            <span class="spinner" id="spinner"></span>
+            <span id="buttonText">Resend Verification Email</span>
+          </button>
+        </form>
+        
+        <div class="divider">
+          <span class="divider-text">or</span>
+        </div>
+        
+        <a href="login.html" class="btn btn-secondary">Already have an account? Log in</a>
+        
+        <div id="messageArea" class="message-area"></div>
+        
+        <div class="business-link">
+          Need solutions for your business? <a href="#">Sign up as a business</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const FORM = document.getElementById('resendForm');
+      const EMAIL_INPUT = document.getElementById('email');
+      const MESSAGE_AREA = document.getElementById('messageArea');
+      const SUBMIT_BUTTON = document.getElementById('submitButton');
+      const BUTTON_TEXT = document.getElementById('buttonText');
+      const SPINNER = document.getElementById('spinner');
+
+      // Assumed backend endpoint for resending the verification email
+      const API_ENDPOINT = "http://localhost:3000/api/resend"; 
+
+      // Function to show and hide loading state
+      const setLoading = (isLoading) => {
+        SUBMIT_BUTTON.disabled = isLoading;
+        if (isLoading) {
+          BUTTON_TEXT.textContent = 'Sending...';
+          SPINNER.style.display = 'inline-block';
+        } else {
+          BUTTON_TEXT.textContent = 'Resend Verification Email';
+          SPINNER.style.display = 'none';
+        }
+      };
+
+      // Function to display messages to the user
+      const displayMessage = (message, isSuccess = true) => {
+        MESSAGE_AREA.textContent = message;
+        MESSAGE_AREA.className = 'message-area';
+        
+        if (isSuccess) {
+          MESSAGE_AREA.classList.add('message-success');
+        } else {
+          MESSAGE_AREA.classList.add('message-error');
+        }
+        
+        MESSAGE_AREA.style.display = 'block';
+      };
+
+      /**
+       * Handles the form submission and communicates with the backend.
+       */
+      const handleResend = async (event) => {
+        event.preventDefault();
+        setLoading(true);
+        MESSAGE_AREA.style.display = 'none'; // Clear previous messages
+
+        const email = EMAIL_INPUT.value.trim();
+        if (!email) {
+            displayMessage("Please enter a valid email address.", false);
+            setLoading(false);
+            return;
+        }
+
+        try {
+          const response = await fetch(API_ENDPOINT, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: email }),
+          });
+
+          // Check for network errors or non-JSON responses first
+          if (!response.ok) {
+              try {
+                  const errorResult = await response.json();
+                  displayMessage(errorResult.message || `Server error: ${response.status}`, false);
+              } catch (e) {
+                  displayMessage(`Failed to connect to the server. Status: ${response.status}`, false);
+              }
+              setLoading(false);
+              return;
+          }
+
+          const result = await response.json();
+
+          // Logic based on messages returned by your server endpoint
+          if (result.message && result.message.includes("successfully sent")) {
+             displayMessage("Success! A new verification link has been sent to your email.", true);
+             // Optionally clear the form on success
+             FORM.reset(); 
+          } else if (result.message && result.message.includes("User not found")) {
+             displayMessage("The email provided is not registered.", false);
+          } else {
+             // Handle other specific error messages from the backend
+             displayMessage(result.message || "An unexpected error occurred. Please try again.", false);
+          }
+
+        } catch (error) {
+          console.error("Resend Verification Error:", error);
+          displayMessage("Network error: Could not reach the server. Please check your connection.", false);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      FORM.addEventListener('submit', handleResend);
+    </script>
+  </body>
+</html>

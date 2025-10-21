@@ -3,11 +3,14 @@ const cors = require("cors");
 const path = require("path");
 const sequelize = require("../config/database");
 const User = require("../models/user.model");
+const Contact = require("../models/contact.model");
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const { Op } = require("sequelize");
 const axios = require("axios");
+const multer = require('multer');
+const fs = require('fs');
 
 dotenv.config();
 
@@ -66,16 +69,23 @@ const userRegistration = async (req, res) => {
 };
 
 const sendVerificationEmail = (email, verificationLink) => {
+  // const transporter = nodemailer.createTransport({
+  //   service: "gmail",
+  //   auth: {
+  //     user: process.env.EMAIL,
+  //     pass: process.env.PASSWORD,
+  //   },
   const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.PASSWORD,
-    },
+      host: 'smtp.sendgrid.net',
+      port: 587,
+      auth: {
+        user: 'apikey', 
+        pass: process.env.SENDGRID_API_KEY
+      }
   });
 
   const mailOptions = {
-    from: process.env.EMAIL,
+    from: process.env.FROM_EMAIL,
     to: email,
     subject: "Complete your registration",
     text: `To complete your registration, click this link ${verificationLink}`,
@@ -112,7 +122,7 @@ const verifyUserEmail = async (req, res) => {
       console.log("User already verified", users);
       // return res.json({ message: "User already verified" });
       return res.redirect(
-        "https://shipping-site-nine.vercel.app//verifiedEmail.html"
+        "https://shipping-site-nine.vercel.app/verifiedEmail.html"
       );
     }
 
@@ -349,7 +359,7 @@ const resendEmailVerificationLink = async(req,res) => {
     await user.save();
 
     // Create verification link
-    const verificationLink = `https://shippingsite.onrender.com/verify?token=${verificationToken}`;
+    const verificationLink = `https://shippingsite.onrender.com/api/verify?token=${verificationToken}`;
 
     // Send verification email
     sendVerificationEmail(email, verificationLink);
@@ -364,6 +374,193 @@ const resendEmailVerificationLink = async(req,res) => {
   }
 }
 
+// Create uploads directory if it doesn't exist
+const uploadsDir = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+// Configure multer to save files to disk
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, uploadsDir);
+    },
+    filename: function (req, file, cb) {
+        // Create unique filename with timestamp
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 5 * 1024 * 1024, // 5MB limit
+    },
+    fileFilter: (req, file, cb) => {
+        const allowedTypes = [
+            'image/jpeg',
+            'image/jpg', 
+            'image/png',
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'text/plain'
+        ];
+        
+        if (allowedTypes.includes(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(new Error('Invalid file type'), false);
+        }
+    }
+});
+
+const submitContactForm = async (req, res) => {
+    try {
+        const { email, subject, message } = req.body;
+        const file = req.file;
+        
+        console.log('Received contact form data:', { email, subject, message });
+        console.log('File:', file ? {
+            name: file.originalname,
+            path: file.path,
+            size: file.size,
+            type: file.mimetype
+        } : 'No file');
+        
+        if (!email || !subject || !message) {
+            // Delete uploaded file if validation fails
+            if (file && fs.existsSync(file.path)) {
+                fs.unlinkSync(file.path);
+            }
+            return res.status(400).json({ 
+                success: false,
+                message: "Email, subject, and message are required"
+            });
+        }
+
+        // Save to database with file info
+        const contactData = {
+            email,
+            subject,
+            message,
+            status: 'new'
+        };
+
+        if (file) {
+            contactData.fileName = file.originalname;
+            contactData.filePath = file.path; // Store the file path
+            contactData.fileSize = file.size;
+            contactData.fileType = file.mimetype;
+        }
+
+        const contactSubmission = await Contact.create(contactData);
+        console.log('Contact saved to database with ID:', contactSubmission.id);
+        console.log('File saved at:', file ? file.path : 'No file');
+
+        // Send email notification
+        const emailSent = await sendSupportNotification(email, subject, message, file);
+
+        res.status(200).json({
+            success: true,
+            message: "Support request submitted successfully!",
+            data: {
+                id: contactSubmission.id,
+                email,
+                subject,
+                message,
+                file: file ? {
+                    name: file.originalname,
+                    path: file.path,
+                    size: file.size,
+                    type: file.mimetype
+                } : null,
+                timestamp: new Date().toISOString()
+            }
+        });
+
+    } catch (error) {
+        console.error("Contact form error:", error);
+        
+        // Delete uploaded file if error occurs
+        if (req.file && fs.existsSync(req.file.path)) {
+            fs.unlinkSync(req.file.path);
+        }
+        
+        res.status(500).json({
+            success: false,
+            message: "Failed to submit support request",
+            error: error.message
+        });
+    }
+};
+
+const sendSupportNotification = async (email, subject, message, file) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.sendgrid.net',
+      port: 587,
+      auth: {
+        user: 'apikey',
+        pass: process.env.SENDGRID_API_KEY
+      }
+    });
+
+    const supportEmail = process.env.SUPPORT_EMAIL || process.env.FROM_EMAIL;
+    
+    if (!supportEmail) {
+      console.error('No support email configured');
+      return false;
+    }
+
+    const mailOptions = {
+      from: process.env.FROM_EMAIL,
+      to: supportEmail,
+      subject: `Support Request: ${subject}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #007bff;">New Support Request</h2>
+          <div style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
+            <p><strong>From:</strong> ${email}</p>
+            <p><strong>Subject:</strong> ${subject}</p>
+            ${file ? `<p><strong>Attachment:</strong> ${file.originalname} (${(file.size / 1024).toFixed(2)} KB)</p>` : ''}
+            <p><strong>Message:</strong></p>
+            <div style="background: white; padding: 15px; border-radius: 5px; border-left: 4px solid #007bff;">
+              ${message.replace(/\n/g, '<br>')}
+            </div>
+          </div>
+          <p style="margin-top: 20px; color: #666; font-size: 14px;">
+            This is an automated notification from your support system.
+          </p>
+        </div>
+      `,
+    };
+
+    // Add attachment if file exists
+    if (file) {
+      mailOptions.attachments = [
+        {
+          filename: file.originalname,
+          content: file.buffer, // file.buffer contains the file data
+          contentType: file.mimetype
+        }
+      ];
+    }
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Support notification sent successfully to:", supportEmail);
+    if (file) {
+      console.log("Attachment included:", file.originalname);
+    }
+    return true;
+
+  } catch (error) {
+    console.error("Error sending support notification:", error);
+    return false;
+  }
+};
+
 module.exports = {
   userRegistration,
   verifyUserEmail,
@@ -375,5 +572,6 @@ module.exports = {
   verifiedEmailPage,
   getLanguages,
   translateSite,
-  resendEmailVerificationLink
+  resendEmailVerificationLink,
+  submitContactForm
 };

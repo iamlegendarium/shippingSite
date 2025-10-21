@@ -3,12 +3,139 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- 
     <title>Ship24</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    
+    <style>
+        /* Mobile Responsive Improvements */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            .links {
+                margin-top: 15px;
+                justify-content: center;
+            }
+            
+            .track {
+                flex-direction: column;
+            }
+            
+            .track input {
+                margin-bottom: 10px;
+                margin-right: 0 !important;
+            }
+            
+            .firstSection .container {
+                text-align: center;
+            }
+            
+            .fine-girl {
+                margin-top: 30px;
+            }
+            
+            .stats-section .col-md-4 {
+                margin-bottom: 30px;
+            }
+            
+            .feature-box {
+                margin-bottom: 30px;
+            }
+            
+            footer .row > div {
+                margin-bottom: 30px;
+                text-align: center;
+            }
+            
+            footer .text-md-right {
+                text-align: center !important;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .firstSection h1 {
+                font-size: 1.8rem;
+            }
+            
+            .secondSection h2 {
+                font-size: 1.5rem;
+            }
+            
+            .main-content-section h2 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Footer Improvements */
+        footer {
+            background: #2c5aa0 !important;
+        }
+        
+        footer h5 {
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        footer ul li {
+            margin-bottom: 8px;
+        }
+        
+        footer a {
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+        
+        footer a:hover {
+            opacity: 1;
+            text-decoration: none;
+        }
+        
+        /* Header Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        
+        @media (max-width: 767px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav.d-none.d-md-block {
+                display: none !important;
+            }
+            
+            .mobile-nav {
+                display: none;
+                width: 100%;
+                text-align: center;
+                margin-top: 15px;
+            }
+            
+            .mobile-nav.active {
+                display: block;
+            }
+            
+            .mobile-nav ul {
+                flex-direction: column;
+            }
+            
+            .mobile-nav li {
+                margin: 10px 0;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -17,30 +144,40 @@
         <div class="logo">
             <img src="./img/logo.svg" alt="Ship24" class="img-fluid" />
         </div>
+        
+        <!-- Desktop Navigation -->
         <nav class="d-none d-md-block">
             <ul class="list-unstyled d-flex mb-0">
-                <li class="mr-3"><a href="#" class="nav-link" >Ship from China</a></li>
+                <!-- <li class="mr-3"><a href="#" class="nav-link">Ship from China</a></li>
                 <li class="mr-3"><a href="#" class="nav-link" data-translate>Couriers</a></li>
                 <li class="mr-3"><a href="#" class="nav-link" data-translate>Shops</a></li>
-                <li class="mr-3"><a href="#" class="nav-link" data-translate>Solutions</a></li>
-                <li><a href="#" class="nav-link" data-translate>Support</a></li>
+                <li class="mr-3"><a href="#" class="nav-link" data-translate>Solutions</a></li> -->
+                <!-- <li><a href="#" class="nav-link" data-translate>Support</a></li> -->
             </ul>
         </nav>
-        <div class="links d-flex">
-            <select id="language-dropdown" class="form-control mr-2"></select>
-            <a href="#" class="nav-link">English</a>
-            <a href="./login.html" class="nav-link" data-translate>Login</a>
+        
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn d-md-none">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="links d-flex align-items-center">
+            <a href="./login.html" class="nav-link mr-3" data-translate>Login</a>
             <a href="./signup.html" class="btn btn-primary signUp" data-translate>Sign up</a>
         </div>
-        <!-- <div class="links d-flex">
-            <select id="language-dropdown" class="form-control mr-2"></select>
-            <a href="#" class="nav-link">English</a>
-            <a href="./login.html" class="nav-link">Login</a>
-            <a href="./signup.html" class="btn btn-primary signUp">Sign up</a>
-        </div> -->
     </div>
-</header>
     
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav d-md-none">
+        <ul class="list-unstyled">
+            <!-- <li><a href="#" class="nav-link">Ship from China</a></li>
+            <li><a href="#" class="nav-link" data-translate>Couriers</a></li>
+            <li><a href="#" class="nav-link" data-translate>Shops</a></li>
+            <li><a href="#" class="nav-link" data-translate>Solutions</a></li> -->
+            <li><a href="#" class="nav-link" data-translate>Support</a></li>
+        </ul>
+    </nav>
+</header>
 
     <!-- First section -->
     <section class="firstSection py-5">
@@ -50,8 +187,8 @@
                 <p data-translate>
                     Universal parcel tracking to track your package from UPS, FedEx, DHL, USPS, China Post and more!
                 </p>
-                <div class="track d-flex">
-                    <input type="text" data-translate-placeholder="Enter tracking numbers" id="track" class="form-control mr-2" />
+                <div class="track d-flex flex-column flex-md-row">
+                    <input type="text" data-translate-placeholder="Enter tracking numbers" id="track" class="form-control mr-md-2 mb-2 mb-md-0" placeholder="Enter tracking numbers" />
                     <button onclick="trackBtn()" type="submit" class="btn btn-primary">
                         <img src="./img/arrowhead.png" alt="Search Icon" />
                     </button>
@@ -69,12 +206,10 @@
         <div class="container">
             <div class="text">
                 <h2 data-translate>
-                    Trusted by logistic companies, marketplaces and <br />
-                    sellers across the world.
+                    Trusted by logistic companies, marketplaces and sellers across the world.
                 </h2>
                 <p data-translate>
                     Track more than 1524+ couriers logistics and marketplaces, including UPS, DHL, FedEx, China Post,
-                    <br />
                     Alibaba, Ebay, Wish and more, all in one place.
                 </p>
             </div>
@@ -152,60 +287,78 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-primary text-white py-4">
+    <footer class="bg-primary text-white py-5">
       <div class="container">
           <div class="row">
-              <div class="col-md-4">
-                  <img src="/img/logo.svg" alt="Ship24" class="img-fluid mb-3" />
-                  <ul class="list-unstyled">
-                      <li><a href="#" class="text-white" data-translate>About Us</a></li>
-                      <li><a href="#" class="text-white" data-translate>Privacy Policy</a></li>
-                      <li><a href="#" class="text-white" data-translate>Contact Us</a></li>
-                      <li><a href="#" class="text-white" data-translate>Help</a></li>
-                      <li><a href="#" class="text-white" data-translate>Tracking API</a></li>
-                      <li><a href="#" class="text-white" data-translate>Tracking Webhook</a></li>
-                      <li><a href="#" class="text-white" data-translate>Tracking Dashboard</a></li>
-                      <li><a href="#" class="text-white" data-translate>Import One-Stop Shop (IOSS)</a></li>
-                      <li><a href="#" class="text-white" data-translate>Couriers</a></li>
-                      <li><a href="#" class="text-white" data-translate>Shops</a></li>
-                  </ul>
+              <div class="col-md-6 col-lg-4 mb-4">
+                  <img src="./img/logo.svg" alt="Ship24" class="img-fluid mb-3" style="max-width: 120px;" />
+                  <p class="mb-4" data-translate>Universal parcel tracking to track your package from all major couriers worldwide.</p>
+                  <div class="social-links mb-4">
+                      <a href="#" class="text-white mr-3"><i class="fab fa-facebook-f"></i></a>
+                      <a href="#" class="text-white mr-3"><i class="fab fa-twitter"></i></a>
+                      <a href="#" class="text-white mr-3"><i class="fab fa-linkedin-in"></i></a>
+                      <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+                  </div>
               </div>
-              <div class="col-md-4">
-                  <h5>Select your language</h5>
-                  <ul class="list-unstyled">
-                      <li><a href="#" class="text-white">English</a></li>
-                      <li><a href="#" class="text-white">Français</a></li>
-                      <li><a href="#" class="text-white">Русский</a></li>
-                      <li><a href="#" class="text-white">Español</a></li>
-                      <li><a href="#" class="text-white">Deutsch</a></li>
-                      <li><a href="#" class="text-white">Italiano</a></li>
-                      <li><a href="#" class="text-white">Türkçe</a></li>
-                      <li><a href="#" class="text-white">हिन्दी</a></li>
-                      <li><a href="#" class="text-white">한국어</a></li>
-                      <li><a href="#" class="text-white">Slovenski Jezik</a></li>
-                      <li><a href="#" class="text-white">Dansk</a></li>
-                      <li><a href="#" class="text-white">Nederlands</a></li>
-                      <li><a href="#" class="text-white">ไทย</a></li>
-                  </ul>
+              
+              <div class="col-md-6 col-lg-4 mb-4">
+                  <h5 data-translate>Quick Links</h5>
+                  <div class="row">
+                      <div class="col-6">
+                          <ul class="list-unstyled">
+                              <li><a href="#" class="text-white" data-translate>About Us</a></li>
+                              <li><a href="#" class="text-white" data-translate>Privacy Policy</a></li>
+                              <li><a href="contact.html" class="text-white" data-translate>Contact Us</a></li>
+                              <li><a href="contact.html" class="text-white" data-translate>Help Center</a></li>
+                          </ul>
+                      </div>
+                      <div class="col-6">
+                          <ul class="list-unstyled">
+                              <!-- <li><a href="#" class="text-white" data-translate>Couriers</a></li>
+                              <li><a href="#" class="text-white" data-translate>Shops</a></li>
+                              <li><a href="#" class="text-white" data-translate>Solutions</a></li>
+                              <li><a href="#" class="text-white" data-translate>IOSS Services</a></li>
+                              <li><a href="#" class="text-white" data-translate>Dashboard</a></li> -->
+                          </ul>
+                      </div>
+                  </div>
               </div>
-              <div class="col-md-4 text-md-right">
+              
+              <div class="col-md-12 col-lg-4 mb-4">
+                  <h5 data-translate>Contact Information</h5>
                   <ul class="list-unstyled">
-                      <li><a href="#" class="text-white">Lietuvių</a></li>
-                      <li><a href="#" class="text-white">Bahasa Indonesia</a></li>
-                      <li><a href="#" class="text-white">Português</a></li>
-                      <li><a href="#" class="text-white">Polski</a></li>
-                      <li><a href="#" class="text-white">Magyar</a></li>
-                      <li><a href="#" class="text-white">日本語</a></li>
-                      <li><a href="#" class="text-white">Hrvatski jezik</a></li>
-                      <li><a href="#" class="text-white">Svenska</a></li>
-                      <li><a href="#" class="text-white">Română</a></li>
-                      <li><a href="#" class="text-white">čeština</a></li>
-                      <li><a href="#" class="text-white">Tiếng Việt</a></li>
+                      <li class="mb-2">
+                          <i class="fas fa-envelope mr-2"></i>
+                          <a href="mailto:support@ship24.com" class="text-white">support@ship24.com</a>
+                      </li>
+                      <li class="mb-2">
+                          <i class="fas fa-phone mr-2"></i>
+                          <a href="tel:+1234567890" class="text-white">+1 (234) 567-890</a>
+                      </li>
+                      <li class="mb-2">
+                          <i class="fas fa-map-marker-alt mr-2"></i>
+                          <span data-translate>123 Shipping St, Logistics City</span>
+                      </li>
                   </ul>
+                  
+                  <h6 class="mt-4" data-translate>Subscribe to our newsletter</h6>
+                  <div class="input-group mb-3">
+                      <input type="email" class="form-control" placeholder="Your email" data-translate-placeholder="Your email">
+                      <div class="input-group-append">
+                          <button class="btn btn-light" type="button" data-translate>Subscribe</button>
+                      </div>
+                  </div>
               </div>
           </div>
-          <div class="text-center mt-4">
-              <p data-translate>&copy; 2024 Ship24. All rights reserved.</p>
+          
+          <div class="row pt-4 border-top border-light">
+              <div class="col-md-6">
+                  <p class="mb-0" data-translate>&copy; 2024 Ship24. All rights reserved.</p>
+              </div>
+              <div class="col-md-6 text-md-right">
+                  <a href="#" class="text-white mr-3" data-translate>Terms of Service</a>
+                  <a href="#" class="text-white" data-translate>Privacy Policy</a>
+              </div>
           </div>
       </div>
     </footer>
@@ -215,5 +368,27 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<script>
+    // Mobile menu functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileNav = document.querySelector('.mobile-nav');
+        
+        if (mobileMenuBtn && mobileNav) {
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileNav.classList.toggle('active');
+            });
+        }
+        
+        // Close mobile menu when clicking on a link
+        const mobileLinks = document.querySelectorAll('.mobile-nav a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileNav.classList.remove('active');
+            });
+        });
+    });
+</script>
 </body>
 </html>

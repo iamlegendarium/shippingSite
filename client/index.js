@@ -10,6 +10,7 @@ const trackBtn = async () => {
         // Send tracking number as query parameter
         // const response = await fetch(`http://localhost:3000/api/parcel/tracking?trackingNumber=${encodeURIComponent(trackingNumber)}`);
         const response = await fetch(`https://shippingsite.onrender.com/api/parcel/tracking?trackingNumber=${encodeURIComponent(trackingNumber)}`);
+        // const response = await fetch(`http://localhost:3000/api/parcel/tracking?trackingNumber=${encodeURIComponent(trackingNumber)}`);
         
 
         if (!response.ok) {

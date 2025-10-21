@@ -430,7 +430,7 @@
                 document.getElementById('trackingNumberDisplay').textContent = trackingNumber;
                 
                 // Fetch from your backend API
-                const response = await fetch(`http://localhost:3000/api/parcel/${trackingNumber}`);
+                const response = await fetch(`https://shipping-site-nine.vercel.app/api/parcel/${trackingNumber}`);
                 
                 if (!response.ok) {
                     if (response.status === 404) {

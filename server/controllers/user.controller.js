@@ -110,9 +110,9 @@ const verifyUserEmail = async (req, res) => {
 
     if (users.isVerified) {
       console.log("User already verified", users);
-      return res.json({ message: "User already verified" });
+      // return res.json({ message: "User already verified" });
       return res.redirect(
-        "https://shipping-site-frontend.vercel.app/verifiedEmail.html"
+        "https://shipping-site-nine.vercel.app//verifiedEmail.html"
       );
     }
 
@@ -125,7 +125,7 @@ const verifyUserEmail = async (req, res) => {
     console.log("User verification complete", users);
     res.json({ message: "User verification complete", users });
     res.redirect(
-      "https://shipping-site-frontend.vercel.app/verifiedEmail.html"
+      "https://https://shipping-site-nine.vercel.app/verifiedEmail.html"
     );
   } catch (error) {
     // if (error.name === "TokenExpiredError") {

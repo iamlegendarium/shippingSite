@@ -15,6 +15,7 @@ async function fetchShipments() {
 
     try {
         const token = localStorage.getItem("authToken");
+        // const response = await fetch("http://localhost:3000/api/parcel/shipments", {
         const response = await fetch("https://shippingsite.onrender.com/api/parcel/shipments", {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -25,6 +26,7 @@ async function fetchShipments() {
             if (response.status === 401) {
                 // Token is invalid, redirect to login
                 localStorage.removeItem('authToken');
+                localStorage.removeItem('user');
                 window.location.href = 'login.html';
                 return;
             }
@@ -81,10 +83,23 @@ function renderShipments(shipments) {
     }
 }
 
+// Enhanced logout function
+function logout() {
+    // Clear all authentication data
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+    
+    // Redirect to index.html
+    window.location.href = "index.html";
+}
+
 // Load shipments when page loads
 document.addEventListener('DOMContentLoaded', function() {
     // Check authentication first
     if (checkAuth()) {
         fetchShipments();
     }
+    
+    // Add global logout function to window for easy access
+    window.logout = logout;
 });

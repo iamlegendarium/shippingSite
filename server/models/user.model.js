@@ -8,7 +8,11 @@ const User = sequelize.define('User', {
   email: {type: DataTypes.STRING, unique: true, allowNull: false},
   password: {type: DataTypes.STRING, allowNull: false},
   isVerified: {type: DataTypes.BOOLEAN, defaultValue: false},
-  verificationToken: {type: DataTypes.STRING}
+  verificationToken: {type: DataTypes.STRING},
+  resetToken: {
+  type: DataTypes.STRING,
+  allowNull: true
+}
 });
 
 module.exports = User;

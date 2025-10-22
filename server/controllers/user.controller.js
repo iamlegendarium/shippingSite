@@ -561,6 +561,195 @@ const sendSupportNotification = async (email, subject, message, file) => {
   }
 };
 
+//PASSWORD RESET
+
+
+// Generate password reset token
+const generateResetToken = (email) => {
+  return jwt.sign(
+    { email, type: 'password_reset' },
+    process.env.JWT_SECRET,
+    { expiresIn: '1h' }
+  );
+};
+
+// Send password reset email - FIXED VERSION
+const sendPasswordResetEmail = async (email, resetLink) => {
+  try {
+    console.log('Attempting to send password reset email to:', email);
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: "Reset Your Password - Shipping Site",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #007bff;">Reset Your Password</h2>
+          <p>You requested to reset your password for your Shipping Site account.</p>
+          <p>Click the button below to create a new password:</p>
+          <a href="${resetLink}" 
+             style="background-color: #4f46e5; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block; font-weight: 600; margin: 20px 0;">
+            Reset Password
+          </a>
+          <p>Or copy and paste this link in your browser:</p>
+          <p style="word-break: break-all; background: #f5f5f5; padding: 10px; border-radius: 4px; border: 1px solid #ddd;">
+            ${resetLink}
+          </p>
+          <p><small>This link will expire in 1 hour. If you didn't request this, please ignore this email.</small></p>
+          <hr style="margin: 20px 0;">
+          <p style="color: #64748b; font-size: 14px;">Shipping Site Team</p>
+        </div>
+      `,
+    };
+
+    // Use promise-based sendMail
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Password reset email sent successfully:", info.response);
+    return true;
+  } catch (error) {
+    console.error("Error sending password reset email:", error);
+    return false;
+  }
+};
+
+// Request password reset - FIXED VERSION
+const requestPasswordReset = async (req, res) => {
+  try {
+    const { email } = req.body;
+    
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    console.log('Password reset requested for email:', email);
+
+    // Check if user exists
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      // For security, don't reveal if email exists or not
+      return res.status(200).json({
+        message: "If your email is registered, you will receive a password reset link shortly."
+      });
+    }
+
+    const resetToken = generateResetToken(email);
+    if (!resetToken) throw new Error("Reset token is required");
+
+    // Update user with reset token
+    await User.update(
+      { resetToken },
+      { where: { email } }
+    );
+
+    console.log("Password reset token generated for user:", user.id);
+    const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
+    const resetLink = `${baseUrl}/reset-password.html?token=${resetToken}`;
+
+    console.log('Reset link:', resetLink);
+
+    // ACTUALLY SEND THE EMAIL - This was missing!
+    const emailSent = await sendPasswordResetEmail(email, resetLink);
+
+    if (!emailSent) {
+      return res.status(500).json({
+        message: "Failed to send password reset email. Please try again later.",
+        resetLink // Include link in response as fallback
+      });
+    }
+
+    res.status(200).json({
+      message: "Password reset link has been sent to your email."
+    });
+
+  } catch (error) {
+    console.error("Password reset request error:", error);
+    res.status(500).json({ 
+      message: "Error processing password reset request",
+      error: error.message 
+    });
+  }
+};
+
+// Reset password function remains the same
+const resetPassword = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+
+    console.log('Reset password request received');
+
+    if (!token || !newPassword) {
+      return res.status(400).json({ message: "Token and new password are required" });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({ message: "Password must be at least 6 characters long" });
+    }
+
+    // Verify token
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+    } catch (jwtError) {
+      console.error('JWT verification error:', jwtError);
+      return res.status(400).json({ message: "Invalid or expired reset token" });
+    }
+    
+    if (decoded.type !== 'password_reset') {
+      return res.status(400).json({ message: "Invalid reset token" });
+    }
+
+    console.log('Token decoded for email:', decoded.email);
+
+    // Check if user exists
+    const user = await User.findOne({ where: { email: decoded.email } });
+
+    if (!user) {
+      console.log('User not found for email:', decoded.email);
+      return res.status(400).json({ message: "Invalid or expired reset token" });
+    }
+
+    console.log('User found, updating password for:', user.email);
+
+    // Hash new password
+    const hashedPassword = await bcryptjs.hash(newPassword, 10);
+
+    // Update user password and clear reset token
+    await User.update(
+      { 
+        password: hashedPassword,
+        resetToken: null 
+      },
+      { where: { email: decoded.email } }
+    );
+
+    console.log('Password updated successfully for:', decoded.email);
+
+    res.status(200).json({
+      message: "Password has been reset successfully"
+    });
+
+  } catch (error) {
+    console.error("Password reset error:", error);
+    
+    if (error.name === 'TokenExpiredError') {
+      return res.status(400).json({ message: "Reset token has expired" });
+    }
+    
+    res.status(500).json({ 
+      message: "Error resetting password",
+      error: error.message 
+    });
+  }
+};
+
 module.exports = {
   userRegistration,
   verifyUserEmail,
@@ -573,5 +762,7 @@ module.exports = {
   getLanguages,
   translateSite,
   resendEmailVerificationLink,
-  submitContactForm
+  submitContactForm,
+  requestPasswordReset,
+  resetPassword
 };

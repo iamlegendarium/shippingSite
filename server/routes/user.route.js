@@ -36,8 +36,6 @@ router.get("/login", getLogin);
 router.post("/login", login);
 router.get("/dashboard", authenticateToken, getDashboard);
 router.post("/resend", resendEmailVerificationLink)
-// router.post('/contact', submitContactForm);
-// router.post('/contact', upload.none(), submitContactForm);
 router.post("/contact", upload.single('attachment'), submitContactForm);
 
 // Route to download/view files

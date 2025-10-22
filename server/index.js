@@ -8,6 +8,7 @@ const path = require("path");
 const sequelize = require("./config/database");
 const router = require("./routes/user.route");
 const parcelRouter = require("./routes/parcel.route");
+const passwordResetRoutes = require('./routes/passwordReset.routes');
 const axios = require("axios");
 
 let PORT = process.env.PORT || 3000;
@@ -16,10 +17,40 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "https://cdn.jsdelivr.net", "'unsafe-inline'"],
-      scriptSrc: ["'self'", "https://cdn.jsdelivr.net"],
-      scriptSrcAttr: ["'unsafe-inline'"],
-      connectSrc: ["'self'", "https://shippingsite.onrender.com"]
+      styleSrc: [
+        "'self'", 
+        "https://cdn.jsdelivr.net", 
+        "https://maxcdn.bootstrapcdn.com",
+        "https://cdnjs.cloudflare.com",
+        "'unsafe-inline'"  // Allow inline styles
+      ],
+      scriptSrc: [
+        "'self'", 
+        "https://cdn.jsdelivr.net",
+        "https://code.jquery.com",
+        "https://cdnjs.cloudflare.com",
+        "https://maxcdn.bootstrapcdn.com",
+        "'unsafe-inline'"  // Allow inline scripts
+      ],
+      fontSrc: [
+        "'self'",
+        "https://maxcdn.bootstrapcdn.com",
+        "https://cdnjs.cloudflare.com",
+        "https://cdn.jsdelivr.net"
+      ],
+      connectSrc: [
+        "'self'",
+        "https://shippingsite.onrender.com",
+        "http://localhost:3000",
+        "https://maxcdn.bootstrapcdn.com",
+        "https://cdnjs.cloudflare.com",
+        "https://cdn.jsdelivr.net"
+      ],
+      imgSrc: [
+        "'self'",
+        "data:",
+        "https:"
+      ]
     }
   }
 }));
@@ -41,14 +72,12 @@ app.use(
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../client")));
-// app.use(cors());
+app.use(express.static(path.join(__dirname, '../client/css')));
 app.use("/api", router);
 app.use("/api/parcel", parcelRouter);
+app.use('/api/auth', passwordResetRoutes);
 
-// Serve the default HTML file for the root URL
-// app.get("/", (req, res) => {
-//   res.sendFile(path.join(__dirname, "../client/index.html"));
-// });
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   sequelize

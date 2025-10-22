@@ -1,4 +1,3 @@
-
 const trackBtn = async () => {
     const trackingNumber = document.getElementById("track").value;
     if (!trackingNumber) {

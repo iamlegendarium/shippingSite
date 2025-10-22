@@ -62,7 +62,8 @@ app.use(
       "http://localhost:5500",
       "http://localhost:3000",
       'https://shippingsite.onrender.com',
-      "https://shipping-site-nine.vercel.app"
+      "https://shipping-site-nine.vercel.app",
+      "https://*.vercel.app"
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],

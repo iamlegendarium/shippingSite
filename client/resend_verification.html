@@ -299,6 +299,7 @@
         </div>
       </div>
     </div>
+    <script src="config.js"></script>
 
     <script>
       const FORM = document.getElementById('resendForm');
@@ -309,7 +310,7 @@
       const SPINNER = document.getElementById('spinner');
 
       // Assumed backend endpoint for resending the verification email
-      const API_ENDPOINT = "https://shippingsite.onrender.com/api/resend"; 
+      const API_ENDPOINT = `${API_CONFIG.BASE_URL}/api/resend`; 
       // const API_ENDPOINT = "http://localhost:3000/api/resend"; 
       
 

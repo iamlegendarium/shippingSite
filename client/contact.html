@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -366,6 +366,395 @@
             messageContainer.style.display = 'block';
             
             // Auto-hide success messages after 5 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageContainer.style.display = 'none';
+                }, 10000);
+            }
+        }
+    </script>
+
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Support</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .navbar-left .button {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .navbar-right span {
+            margin-left: 20px;
+            font-size: 0.9em;
+            color: #555;
+        }
+        .navbar-right .profile-initials {
+            background-color: #ddd;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 500;
+            margin-left: 10px;
+            font-size: 0.85em;
+            color: #666;
+        }
+        .content-container {
+            padding: 30px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .page-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #222;
+        }
+        .card {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .card h3 {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #444;
+        }
+        .form-group input[type="email"],
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        .form-group input[type="email"]:focus,
+        .form-group input[type="text"]:focus,
+        .form-group textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .submit-button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+        .submit-button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        .action-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        .action-card {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+        }
+        .action-card h3 {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .action-card p {
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #555;
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+        .action-card .button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9em;
+            align-self: flex-start;
+            transition: background-color 0.2s;
+        }
+        .action-card .button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+        .file-input-label {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .file-input-label:hover {
+            background: #e9ecef;
+        }
+        .file-name {
+            margin-left: 10px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .file-size {
+            color: #999;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="dashboard.html" class="button">Home</a>
+        </div>
+        <div class="navbar-right">
+            <span>Support</span>
+            <span class="profile-initials">BP</span>
+        </div>
+    </div>
+
+    <div class="content-container">
+        <h1 class="page-title">Contact Support</h1>
+
+        <div id="messageContainer"></div>
+
+        <div class="card">
+            <h3>Submit a Support Request</h3>
+            <form id="contactForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="email">Your Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="e.g., yourname@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" placeholder="e.g., Issue with tracking, Billing question" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Please describe your issue in detail..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="attachment">Attach File (Optional)</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="attachment" name="attachment" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.txt">
+                        <span class="file-input-label">Choose File</span>
+                    </div>
+                    <span id="fileName" class="file-name">No file chosen</span>
+                    <span id="fileSize" class="file-size"></span>
+                    <p style="font-size: 0.8em; color: #666; margin-top: 5px;">
+                        Supported formats: JPG, PNG, PDF, DOC, TXT (Max: 5MB)
+                    </p>
+                </div>
+                <button type="submit" class="submit-button" id="submitButton">Submit Request</button>
+            </form>
+        </div>
+
+        <div class="action-cards">
+            <div class="action-card">
+                <h3>Help center</h3>
+                <p>Check our documentation to get all the information you need.</p>
+                <a href="#" class="button">Explore documentation</a>
+            </div>
+            <div class="action-card">
+                <h3>Support</h3>
+                <p>Need help? Submit a request to our support team and we'll get back to you shortly.</p>
+                <a href="#" class="button">Contact support</a>
+            </div>
+            <div class="action-card">
+                <h3>Contact sales</h3>
+                <p>Talk with an expert to see how we can provide the best solutions for shipment tracking.</p>
+                <a href="#" class="button">Contact sales</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script>
+        document.getElementById('attachment').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            
+            if (file) {
+                fileName.textContent = file.name;
+                fileSize.textContent = `(${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+                
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size must be less than 5MB');
+                    e.target.value = '';
+                    fileName.textContent = 'No file chosen';
+                    fileSize.textContent = '';
+                }
+            } else {
+                fileName.textContent = 'No file chosen';
+                fileSize.textContent = '';
+            }
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitButton = document.getElementById('submitButton');
+            const originalText = submitButton.textContent;
+            
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
+            
+            try {
+                const formData = new FormData(this);
+                
+                const response = await fetch(`${API_CONFIG.BASE_URL}/api/contact`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Server responded with ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showMessage('Support request submitted successfully! We will get back to you soon.', 'success');
+                    document.getElementById('contactForm').reset();
+                    document.getElementById('fileName').textContent = 'No file chosen';
+                    document.getElementById('fileSize').textContent = '';
+                } else {
+                    showMessage(result.message || 'Failed to submit support request. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                showMessage('Network error. Please check your connection and try again.', 'error');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+            }
+        });
+        
+        function showMessage(text, type) {
+            const messageContainer = document.getElementById('messageContainer');
+            messageContainer.innerHTML = `
+                <div class="message ${type}">
+                    ${text}
+                </div>
+            `;
+            messageContainer.style.display = 'block';
+            
             if (type === 'success') {
                 setTimeout(() => {
                     messageContainer.style.display = 'none';

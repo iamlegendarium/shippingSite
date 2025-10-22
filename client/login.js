@@ -1,6 +1,6 @@
 const loginBtn = (event) => {
   event.preventDefault();
-  let url = "https://shippingsite.onrender.com/api/login";
+  let url = `${API_CONFIG.BASE_URL}/api/login`;
   // let url = "http://localhost:3000/api/login";
 
   const email = document.getElementById("email").value;

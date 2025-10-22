@@ -6,7 +6,7 @@ const BUTTON_TEXT = document.getElementById("buttonText");
 const SPINNER = document.getElementById("spinner");
 
 // const API_ENDPOINT = "http://localhost:3000/api/auth/forgot-password";
-const API_ENDPOINT = "https://shippingsite.onrender.com/api/auth/forgot-password";
+const API_ENDPOINT = `${API_CONFIG.BASE_URL}/api/auth/forgot-password`;
 
 // Function to show and hide loading state
 const setLoading = (isLoading) => {

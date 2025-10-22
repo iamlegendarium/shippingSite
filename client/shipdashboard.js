@@ -16,7 +16,7 @@ async function fetchShipments() {
     try {
         const token = localStorage.getItem("authToken");
         // const response = await fetch("http://localhost:3000/api/parcel/shipments", {
-        const response = await fetch("https://shippingsite.onrender.com/api/parcel/shipments", {
+        const response = await fetch(`${API_CONFIG.BASE_URL}/api/parcel/shipments`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

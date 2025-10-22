@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const SPINNER = document.getElementById('spinner');
 
 //   const RESET_PASSWORD_ENDPOINT = "http://localhost:3000/api/auth/reset-password";
-  const RESET_PASSWORD_ENDPOINT = "https://shippingsite.onrender.com/api/auth/reset-password";
+  const RESET_PASSWORD_ENDPOINT = `${API_CONFIG.BASE_URL}/api/auth/reset-password`;
 
   // Get token from URL parameters
   const urlParams = new URLSearchParams(window.location.search);
